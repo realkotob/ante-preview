@@ -22,7 +22,7 @@ on:
       model_base_url:
         description: 'Base URL for model API'
         required: false
-        default: 'https://litellm-classic-178302479088.us-west2.run.app'
+        default: ''
       model_temperature:
         description: 'Model temperature'
         required: false
@@ -137,6 +137,12 @@ jobs:
 
           echo "=== Run ${{ matrix.run_index }} of ${{ github.event.inputs.run_count }} ==="
           echo "Running harbor with args: $HARBOR_ARGS and model: $MODEL_NAME"
+          
+          # Unset MODEL_BASE_URL if it's empty
+          if [ -z "$MODEL_BASE_URL" ]; then
+            unset MODEL_BASE_URL
+          fi
+          
           # Use sg to run with docker group permissions (avoids needing to log out/in)
           sg docker -c "uv run harbor run --agent-import-path ante.ante_agent:AnteAgent --model \"$MODEL_NAME\" $HARBOR_ARGS"
 
