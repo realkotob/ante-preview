@@ -18,7 +18,7 @@ on:
       provider:
         description: 'Model provider (anthropic, openai, etc.)'
         required: false
-        default: 'vertex-gemini'
+        default: 'gemini'
       model_base_url:
         description: 'Base URL for model API'
         required: false
