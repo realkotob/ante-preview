@@ -22,7 +22,7 @@ on:
       model_base_url:
         description: 'Base URL for model API'
         required: false
-        default: ''
+        default: 'https://generativelanguage.googleapis.com/v1beta'
       model_temperature:
         description: 'Model temperature'
         required: false
