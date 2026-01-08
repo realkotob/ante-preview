@@ -55,6 +55,24 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
+      - name: Display all workflow inputs
+        run: |
+          echo "=========================================="
+          echo "         Workflow Input Parameters        "
+          echo "=========================================="
+          echo "release_tag:       ${{ github.event.inputs.release_tag }}"
+          echo "harbor_args:       ${{ github.event.inputs.harbor_args }}"
+          echo "model_name:        ${{ github.event.inputs.model_name }}"
+          echo "provider:          ${{ github.event.inputs.provider }}"
+          echo "model_base_url:    ${{ github.event.inputs.model_base_url }}"
+          echo "model_temperature: ${{ github.event.inputs.model_temperature }}"
+          echo "model_top_p:       ${{ github.event.inputs.model_top_p }}"
+          echo "model_thinking:    ${{ github.event.inputs.model_thinking }}"
+          echo "model_max_tokens:  ${{ github.event.inputs.model_max_tokens }}"
+          echo "runs_on:           ${{ github.event.inputs.runs_on }}"
+          echo "run_count:         ${{ github.event.inputs.run_count }}"
+          echo "=========================================="
+
       - name: Generate run matrix
         id: set-matrix
         run: |
