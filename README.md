@@ -18,8 +18,7 @@ It was designed from ground up and built with native rust for security, performa
 ### Installation
 Download the install.sh script and run
 ```sh
-chomd +x install.sh
-./install.sh anen.ai/install-manifest
+curl -fsSL https://antigmalabs.github.io/ante-preview/install.sh | bash -s -- anen.ai/install-manifest
 ```
 
 ### Run as headless
