@@ -9,6 +9,7 @@
 
 > **⚠️ Alpha Preview For Evaluation**  
 > This project is currently in alpha and provided as a research preview.
+> Currently only support MacOs and Linux
 
 Ante is a lightweight agent live in terminal built by Antigma Labs.
 It was designed from ground up and built with native rust for security, performance and resistance to AI generated slop. 
