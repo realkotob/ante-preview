@@ -1,0 +1,90 @@
+---
+title: "Custom Commands"
+description: "Create reusable prompt-based commands with markdown files"
+---
+
+Custom commands let you define reusable prompts that can be invoked during a session. They are markdown files with optional YAML frontmatter for configuration.
+
+## Creating a command
+
+Create a markdown file in one of the command directories:
+
+| Directory | Scope |
+|---|---|
+| `~/.ante/commands/` | User-level (available in all projects) |
+| `.ante/commands/` | Project-level (available in this project) |
+| `.claude/commands/` | Claude.ai compatibility |
+
+The filename (without extension) becomes the command name.
+
+### Example: commit command
+
+Create `~/.ante/commands/commit.md`:
+
+```markdown
+---
+description: "Create a git commit with a descriptive message"
+---
+
+Look at the current git diff and create a commit with a clear,
+descriptive message that follows conventional commit format.
+Use `git add` to stage relevant files first.
+```
+
+### Example: review command with tools
+
+Create `.ante/commands/review.md`:
+
+```markdown
+---
+description: "Review code changes for bugs and style"
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+argument-hint: "<file-or-directory>"
+---
+
+Review the code at $ARGUMENTS for:
+- Bugs and logic errors
+- Security vulnerabilities
+- Style and idiom issues
+- Missing error handling
+
+Provide a summary with specific line references.
+```
+
+## Frontmatter options
+
+| Field | Type | Description |
+|---|---|---|
+| `description` | string | Short description shown in command listings |
+| `argument-hint` | string | Placeholder text showing expected arguments |
+| `allowed-tools` | list | Restrict which tools this command can use |
+| `model` | string | Override the model for this command |
+
+## How commands are discovered
+
+Commands are discovered from multiple directories. **Later directories override earlier ones** if they share a command name:
+
+1. `~/.ante/commands/` (user-level)
+2. `.ante/commands/` (project-level)
+3. `.claude/commands/` (compatibility)
+
+This means a project-level command will override a user-level command of the same name.
+
+## Using commands
+
+Invoke a command during a session with the slash syntax:
+
+```
+/commit
+```
+
+Or with arguments:
+
+```
+/review src/core/session.rs
+```
+
+The `$ARGUMENTS` placeholder in the command prompt will be replaced with whatever you pass after the command name.

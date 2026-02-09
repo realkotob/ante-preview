@@ -1,0 +1,109 @@
+---
+title: "Quickstart"
+description: "Install Ante and start using it in under a minute"
+---
+
+## Prerequisites
+
+- Rust toolchain (install via [rustup](https://rustup.rs/))
+- An API key from at least one LLM provider (Anthropic, OpenAI, etc.) — or use [offline mode](/offline) with no API key
+
+## Installation
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/AntigmaLabs/ante.git
+    cd ante
+    ```
+  </Step>
+  <Step title="Build from source">
+    ```bash
+    cargo build --release
+    ```
+
+    The binary will be at `target/release/ante`.
+  </Step>
+  <Step title="Set up your API key">
+    Export your provider's API key:
+
+    <CodeGroup>
+    ```bash Anthropic
+    export ANTHROPIC_API_KEY="sk-ant-..."
+    ```
+
+    ```bash OpenAI
+    export OPENAI_API_KEY="sk-..."
+    ```
+    </CodeGroup>
+
+    Alternatively, Ante supports OAuth for both Anthropic and OpenAI — you can authenticate interactively on first launch.
+  </Step>
+  <Step title="Run Ante">
+    Launch the interactive TUI:
+
+    ```bash
+    ante
+    ```
+
+    Or run a one-shot prompt in headless mode:
+
+    ```bash
+    ante "explain what this project does"
+    ```
+  </Step>
+</Steps>
+
+## Quick examples
+
+### Interactive session
+
+```bash
+# Launch the TUI — chat with the agent, approve tool calls, view diffs
+ante
+```
+
+### Headless one-shot
+
+```bash
+# Run a task and exit
+ante "add error handling to src/main.rs"
+```
+
+### Pipe input from stdin
+
+```bash
+# Pipe file contents for analysis
+cat src/lib.rs | ante "review this code for bugs"
+```
+
+### Use a different provider
+
+```bash
+# Override model and provider
+ante --provider openai --model gpt-4o "refactor this function"
+```
+
+### Skip tool approvals
+
+```bash
+# YOLO mode — auto-approve all tool calls
+ante --yolo "fix all clippy warnings"
+```
+
+## What's next?
+
+<CardGroup cols={2}>
+  <Card title="TUI Guide" icon="terminal" href="/tui">
+    Master the interactive terminal interface.
+  </Card>
+  <Card title="Headless Mode" icon="code" href="/headless">
+    All CLI flags and output formats.
+  </Card>
+  <Card title="Offline Mode" icon="wifi-slash" href="/offline">
+    Run models locally with no internet.
+  </Card>
+  <Card title="Custom Commands" icon="scroll" href="/commands">
+    Create reusable prompt-based commands.
+  </Card>
+</CardGroup>

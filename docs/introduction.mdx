@@ -1,0 +1,51 @@
+---
+title: "Introduction"
+description: "Ante is a lightweight terminal AI agent built in Rust for coding and engineering tasks"
+---
+
+# Ante
+
+Ante is a lightweight AI agent that lives in your terminal, built by [Antigma Labs](https://antigma.ai). It focuses on coding and daily engineering tasks, designed from the ground up in native Rust for security, performance, and resistance to bloat.
+
+<Warning>
+  Ante is currently in beta and provided as a research preview. It may contain experimental features or incomplete functionality. Use with caution in production environments.
+</Warning>
+
+## Why Ante?
+
+- **Native Rust** — Fast startup, low memory footprint, no runtime dependencies
+- **Terminal-first** — Rich TUI for interactive sessions, headless mode for scripting and CI
+- **Provider agnostic** — Works with Anthropic, OpenAI, Gemini, Grok, Open Router, and local models
+- **Offline capable** — Run models locally via llama.cpp with no API keys required
+- **Extensible** — Custom commands, sub-agents, and a trait-based tool system
+- **Secure by default** — Tool approval gates, configurable permissions, no ambient authority
+
+## How it works
+
+Ante uses a client-daemon architecture. The TUI (or headless runner) is the client that sends operations to a daemon. The daemon manages sessions, communicates with LLM providers, and executes tools on your behalf.
+
+```
+┌─────────┐     Op      ┌─────────┐     API      ┌──────────┐
+│  Client  │ ──────────▶ │  Daemon  │ ──────────▶ │ Provider │
+│ (TUI/CLI)│ ◀────────── │ (Session)│ ◀────────── │  (LLM)   │
+└─────────┘     Evt      └─────────┘              └──────────┘
+```
+
+The client sends `Op` (operations) like user input, and the daemon responds with `Evt` (events) like agent messages and tool calls.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="bolt" href="/quickstart">
+    Install Ante and run your first prompt in under a minute.
+  </Card>
+  <Card title="Core Concepts" icon="shapes" href="/core-concepts">
+    Understand sessions, tasks, turns, and the protocol.
+  </Card>
+  <Card title="Interactive TUI" icon="terminal" href="/tui">
+    Learn to use the rich terminal interface.
+  </Card>
+  <Card title="Headless Mode" icon="code" href="/headless">
+    Integrate Ante into scripts and CI pipelines.
+  </Card>
+</CardGroup>
