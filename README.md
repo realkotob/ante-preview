@@ -1,11 +1,10 @@
 
-<img src="https://github.com/user-attachments/assets/4736e36d-39fb-4659-a49d-ddff25ed0884" alt="another_terminal" width="300" style="display: block; margin: 0 auto;">
-
-# Ante Preview
 [![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/CbAsUR434B)
 [![Website](https://img.shields.io/badge/Website-antigma.ai-orange?logo=google-chrome&logoColor=white)](https://antigma.ai)
 [![Twitter](https://img.shields.io/twitter/follow/antigma_labs?style=social)](https://twitter.com/antigma_labs)
 [![🤗 Hugging Face](https://img.shields.io/badge/HuggingFace-Antigma-yellow?logo=huggingface&logoColor=white)](https://huggingface.co/Antigma)
+
+# Ante Preview
 
 > **⚠️ Alpha Preview For Evaluation**  
 > This project is currently in alpha and provided as a research preview.
@@ -20,7 +19,7 @@ It was designed from ground up and built with native rust for security, performa
 ### Installation
 Download the install.sh script and run
 ```sh
-curl -fsSL https://antigmalabs.github.io/ante-preview/install.sh | bash -s -- anen.ai/install-manifest
+curl -fsSL https://ante.run/ante-preview/install.sh | bash -s -- anen.ai/install-manifest
 ```
 
 ### Run as headless
