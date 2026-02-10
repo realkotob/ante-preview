@@ -44,9 +44,18 @@
             "group": "Concepts",
             "pages": [
               "concepts/core-concepts",
-              "concepts/architecture",
-              "concepts/protocol"
+              "concepts/architecture"
             ]
+          },
+          {
+            "group": "Agent Org",
+            "pages": [
+              "agent-org"
+            ]
+          },
+          {
+            "group": "Offline Mode",
+            "pages": ["offline"]
           },
           {
             "group": "Usage",
@@ -63,10 +72,7 @@
               "extend/configuration"
             ]
           },
-          {
-            "group": "Offline Mode",
-            "pages": ["offline"]
-          },
+
           {
             "group": "Memory",
             "pages": ["memory"]

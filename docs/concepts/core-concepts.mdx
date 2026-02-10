@@ -1,9 +1,9 @@
 ---
-title: "Core Concepts"
-description: "Understand Ante's fundamental abstractions: projects, sessions, tasks, turns, and steps"
+title: "Core Concepts & Protocol"
+description: "Ante's fundamental abstractions, and the Op/Evt message protocol that connects them"
 ---
 
-Ante models agent interactions as a hierarchy of concepts. Understanding these helps you reason about how the system works and how to extend it.
+Ante models agent interactions as a hierarchy of concepts, connected by a typed message-passing protocol.
 
 ## Concept hierarchy
 
@@ -15,60 +15,21 @@ Project
                 └── Step
 ```
 
-### Project
-
-A **Project** corresponds to a git repository or root directory. A project can have multiple sessions.
-
-### Session
-
-A **Session** represents one episode of interaction between the user and Ante. When you launch Ante (TUI or headless), a session is created. The session manages the dialog state, tracks token usage, and handles context compaction when approaching limits.
-
-### Task
-
-A **Task** represents a single user intent — one piece of work the user wants to accomplish. A task can take arbitrarily long to finish and may require multiple turns (e.g., if tool approval is needed).
+| Concept | Description |
+|---|---|
+| **Project** | A git repo or root directory. Can have multiple sessions. |
+| **Session** | One episode of interaction between user and Ante. Manages dialog state, token usage, and context compaction. |
+| **Task** | One piece of work the user wants to accomplish. Can span multiple turns. |
+| **Turn** | One back-and-forth with the agent. Starts with user input, ends with agent message or approval request. |
+| **Step** | One interaction from agent with LLM. Handles tool calls and other mechanics. |
 
 <Note>
 Generally, if there is no approval interruption, one task consists of one turn.
 </Note>
 
-### Turn
-
-A **Turn** is one back-and-forth with the agent. It starts with a user operation (like `UserInput`) and ends with either an agent message or a request for approval. A turn can involve multiple steps.
-
-### Step
-
-A **Step** is a single interaction from the agent with the LLM. Each step handles tool calls and potentially other mechanics like guardrails or hooks.
-
 ## Protocol: Ops and Events
 
-Ante uses a message-passing protocol between the client (TUI or headless runner) and the daemon.
-
-### Operations (Op)
-
-Operations flow from the **client to the daemon**. Key operations:
-
-| Op | Description |
-|---|---|
-| `NewSession` | Initialize a session with model, provider, and policy |
-| `UserInput` | Submit a user prompt |
-| `ApprovalResponse` | Respond to a tool approval request |
-| `SlashCommand` | Execute a custom command |
-| `Interrupt` | Abort the current task |
-| `Shutdown` | Clean shutdown |
-
-### Events (Evt)
-
-Events flow from the **daemon to the client**. Key events:
-
-| Evt | Description |
-|---|---|
-| `SessionInit` | Session is ready with metadata |
-| `TaskStarted` / `TaskFinished` | Task lifecycle boundaries |
-| `AgentMessage` | Text response from the agent |
-| `Thinking` | Agent's chain-of-thought (if enabled) |
-| `ToolCallStarted` / `ToolCallFinished` | Tool execution lifecycle |
-| `RequestApproval` | Agent needs permission to execute a tool |
-| `UsageUpdate` | Token and cost tracking |
+Ante uses a message-passing protocol between the client (TUI or headless runner) and the daemon. Operations (`Op`) flow from client to daemon, and events (`Evt`) flow from daemon to client.
 
 ### Message IDs
 
@@ -79,32 +40,135 @@ Every message has a custom `Id` type with a 4-byte prefix for tracing:
 - `ses_` — sessions
 - `step_` — steps
 
-## Flow example
+## Operations reference
 
-A typical interaction:
+| Op | Fields | Description |
+|---|---|---|
+| `NewSession` | model, provider, policy, streaming, config | Initialize a new session |
+| `UserInput` | String | Submit a user prompt |
+| `ApprovalResponse` | allow/deny | Respond to tool approval request |
+| `SlashCommand` | command name, args | Execute a custom command |
+| `OfflineMode` | OfflineModeOp | Offline mode operations |
+| `Interrupt` | — | Abort the current task |
+| `Shutdown` | — | Clean shutdown |
+
+## Events reference
+
+| Evt | Fields | Description |
+|---|---|---|
+| `SessionInit` | metadata | Session is ready |
+| `TaskStarted` | id | A new task has begun |
+| `TaskFinished` | id, error, is_interrupted | Task completed or failed |
+| `AgentMessage` | String | Text response from agent |
+| `Thinking` | String | Chain-of-thought content |
+| `MessageDelta` | String | Streaming content chunk |
+| `ToolCallStarted` | tool_use | Tool execution began |
+| `ToolCallFinished` | result | Tool execution completed |
+| `ToolCallCancelled` | — | Tool execution was cancelled |
+| `RequestApproval` | tool_use | Agent needs permission |
+| `UsageUpdate` | tokens, cost | Token/cost tracking |
+| `Info` | String | Informational message |
+| `Error` | String | Error message |
+
+## Flow examples
+
+### Basic UI flow
+
+A single user input followed by a 2-turn task:
 
 ```mermaid
 sequenceDiagram
-  participant User
-  participant Daemon
-  participant LLM
+  autonumber
+  box "UI"
+    participant User
+  end
+  box "Daemon"
+    participant Core
+    participant Session
+    participant Task
+  end
+  box "LLM Provider"
+    participant LLM
+  end
 
-  User->>Daemon: Op::NewSession
-  Daemon-->>User: Evt::SessionInit
+  User->>Core: Op::ConfigureSession
+  Core->>Session: Create session
+  Core-->>User: Evt::SessionInitialized
 
-  User->>Daemon: Op::UserInput("fix the bug")
-  Daemon-->>User: Evt::TaskStarted
-  Daemon->>LLM: prompt
-  LLM-->>Daemon: response (tool call)
-  Daemon-->>User: Evt::RequestApproval
-  User->>Daemon: Op::ApprovalResponse(Allow)
-  Daemon-->>User: Evt::ToolCallStarted
-  Note over Daemon: executes tool
-  Daemon-->>User: Evt::ToolCallFinished
-  Daemon->>LLM: tool result
-  LLM-->>Daemon: response (message)
-  Daemon-->>User: Evt::AgentMessage
-  Daemon-->>User: Evt::TaskFinished
+  User->>Session: Op::UserInput
+  Session-->>+Task: Start task
+  Task-->>User: Evt::TaskStarted
+
+  rect rgb(245,245,245)
+    note over Task,LLM: Turn 1
+    Task->>LLM: prompt
+    LLM-->>Task: response (exec)
+    Task-->>User: Evt::ExecApprovalRequest
+    User->>Task: Op::ExecApproval::Allow
+    Task-->>User: Evt::ExecStart
+    Task->>Task: exec
+    Task-->>User: Evt::ExecStop
+    Task-->>User: Evt::TurnComplete
+  end
+
+  rect rgb(245,245,245)
+    note over Task,LLM: Turn 2
+    Task->>LLM: stdout
+    LLM-->>Task: response (patch)
+    Task->>Task: apply patch (auto-approved)
+    Task->>LLM: success
+    LLM-->>Task: response (msg + completed)
+    Task-->>User: Evt::AgentMessage
+    Task-->>User: Evt::TurnComplete
+  end
+
+  Task-->>-User: Evt::TaskComplete
+```
+
+### Task interruption
+
+Interrupting a task and continuing with additional user input:
+
+```mermaid
+sequenceDiagram
+  autonumber
+  box "UI"
+    participant User
+  end
+  box "Daemon"
+    participant Session
+    participant Task1
+    participant Task2
+  end
+  box "LLM Provider"
+    participant LLM
+  end
+
+  User->>Session: Op::UserInput
+  Session-->>+Task1: Start task
+  Task1-->>User: Evt::TaskStarted
+  Task1->>LLM: prompt
+  LLM-->>Task1: response (exec)
+  Task1->>Task1: exec (auto-approved)
+  Task1-->>User: Evt::TurnComplete
+  Task1->>LLM: stdout
+  LLM-->>Task1: response (exec)
+  Task1->>Task1: exec (auto-approved)
+  User->>Task1: Op::Interrupt
+  Task1-->>-User: Evt::Error("interrupted")
+
+  User->>Session: Op::UserInput w/ last_response_id
+  Session-->>+Task2: Start task
+  Task2-->>User: Evt::TaskStarted
+  Task2->>LLM: prompt + Task1 last_response_id
+  LLM-->>Task2: response (exec)
+  Task2->>Task2: exec (auto-approved)
+  Task2-->>User: Evt::TurnComplete
+  Task2->>LLM: stdout
+  LLM-->>Task2: msg + completed
+  Task2-->>User: Evt::AgentMessage
+  Task2-->>User: Evt::TurnComplete
+  Task2-->>-User: Evt::TaskCompleted
 ```
 
 ## Context management
