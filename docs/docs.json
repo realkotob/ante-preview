@@ -67,7 +67,7 @@
           {
             "group": "Extensibility",
             "pages": [
-              "extend/commands",
+              "extend/skills",
               "extend/subagents",
               "extend/configuration"
             ]

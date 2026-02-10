@@ -43,7 +43,7 @@ Settings can be overridden per-session via CLI flags.
 ```
 ~/.ante/
 ├── settings.json      # User preferences
-├── commands/          # User-level custom commands
+├── skills/            # User-level skills
 └── agents/            # User-level sub-agents
 ```
 
@@ -51,14 +51,13 @@ Settings can be overridden per-session via CLI flags.
 
 ```
 .ante/
-└── commands/          # Project-specific custom commands
+└── skills/            # Project-specific skills
 ```
 
 ### Claude.ai compatibility (`.claude/`)
 
 ```
 .claude/
-├── commands/          # Commands (Claude.ai compatible)
 └── projects/
     └── <path>/
         └── memory/

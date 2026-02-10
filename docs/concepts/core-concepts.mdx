@@ -47,7 +47,7 @@ Every message has a custom `Id` type with a 4-byte prefix for tracing:
 | `NewSession` | model, provider, policy, streaming, config | Initialize a new session |
 | `UserInput` | String | Submit a user prompt |
 | `ApprovalResponse` | allow/deny | Respond to tool approval request |
-| `SlashCommand` | command name, args | Execute a custom command |
+| `SlashCommand` | skill name, args | Invoke a skill |
 | `OfflineMode` | OfflineModeOp | Offline mode operations |
 | `Interrupt` | — | Abort the current task |
 | `Shutdown` | — | Clean shutdown |
