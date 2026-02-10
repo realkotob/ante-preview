@@ -1,0 +1,79 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "maple",
+  "name": "Ante",
+  "colors": {
+    "primary": "#E8590C",
+    "light": "#FF8C42",
+    "dark": "#C2410C"
+  },
+  "favicon": "/assets/ante.png",
+  "logo": {
+    "light": "/assets/ante.png",
+    "dark": "/assets/ante.png"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["introduction", "quickstart"]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "core-concepts",
+              "architecture"
+            ]
+          },
+          {
+            "group": "Usage",
+            "pages": [
+              "tui",
+              "headless",
+              "offline"
+            ]
+          },
+          {
+            "group": "Extensibility",
+            "pages": [
+              "commands",
+              "subagents",
+              "memory"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": ["tools", "configuration", "protocol"]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Discord",
+          "href": "https://discord.gg/pqhj3DNGz2",
+          "icon": "discord"
+        }
+      ]
+    }
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Website",
+        "href": "https://antigma.ai"
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/antigma_labs",
+      "github": "https://github.com/AntigmaLabs",
+      "discord": "https://discord.gg/svxG9ffc"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+---
+title: "Offline Mode"
+description: "Run Ante with local models using llama.cpp — no API keys or internet required"
+---
+
+Ante can run entirely offline using local GGUF models via [llama.cpp](https://github.com/ggerganov/llama.cpp). This means no API keys, no internet, and no data leaving your machine.
+
+## How it works
+
+Ante includes an integrated inference engine powered by llama.cpp. When you select offline mode, Ante:
+
+1. Discovers GGUF models on your system
+2. Estimates memory requirements based on model size and context window
+3. Runs inference locally through the embedded engine
+
+## Setting up
+
+<Steps>
+  <Step title="Download a GGUF model">
+    Download a compatible GGUF model. Ante maintains a list of verified models that are known to work well. You can also use any GGUF model file.
+
+    Popular sources:
+    - [Hugging Face](https://huggingface.co/models?search=gguf)
+    - [Antigma on Hugging Face](https://huggingface.co/Antigma)
+  </Step>
+  <Step title="Launch Ante">
+    Start Ante normally:
+
+    ```bash
+    ante
+    ```
+
+    Use the offline mode selector in the TUI to pick your model.
+  </Step>
+  <Step title="Or use the CLI flag">
+    ```bash
+    ante --provider local "your prompt here"
+    ```
+  </Step>
+</Steps>
+
+## Model discovery
+
+Ante automatically scans for GGUF model files. It handles:
+
+- Single-file models (e.g., `model.gguf`)
+- Sharded models (e.g., `Model-00001-of-00008.gguf`)
+- Metadata extraction (file size, shard count)
+
+## Model preferences
+
+You can configure per-model preferences:
+
+| Setting | Description |
+|---|---|
+| `context_window` | Context window size (minimum 32K tokens) |
+| `thinking` | Enable/disable chain-of-thought |
+| `temperature` | Sampling temperature |
+
+## Memory considerations
+
+Ante estimates memory usage based on:
+
+- **Model file size** — The base memory needed to load the model
+- **KV cache** — Scales with context window size (bytes per token)
+- **Shard count** — Multi-file models need proportional memory
+
+<Tip>
+For large models, reduce the context window to lower memory usage. The minimum is 32K tokens.
+</Tip>
+
+## Verified models
+
+Ante includes a curated list of verified models that are tested for compatibility and quality. These are shown prominently in the model selector.
