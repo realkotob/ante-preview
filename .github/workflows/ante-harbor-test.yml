@@ -38,7 +38,7 @@ on:
       model_max_tokens:
         description: 'Max tokens for model'
         required: false
-        default: '64000'
+        default: ''
       runs_on:
         description: 'Runner to use for the test job'
         required: false
