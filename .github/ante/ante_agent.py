@@ -70,7 +70,7 @@ class AnteAgent(BaseInstalledAgent):
             ExecInput(
                 command=(
                     f"ante -p {escaped_instruction} --yolo "
-                    f"--provider {provider} --model {model_name} "
+                    f"--provider {provider} --model {model_name} --check "
                     f"2>&1 | tee /logs/agent/ante.txt"
                 ),
                 env=env,
