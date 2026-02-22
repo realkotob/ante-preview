@@ -180,13 +180,4 @@ Ante automatically manages context windows:
 
 ## Permissions
 
-Ante has a permission system that gates tool execution:
-
-| Policy | Behavior |
-|---|---|
-| `Default` | Tools marked `requires_approval` prompt the user before execution |
-| `Yolo` | All tools execute without approval |
-
-In the TUI, you approve or deny each tool call interactively. In headless mode, `--yolo` is implied (all tools auto-approved).
-
-Tools like `Bash` and `Write` require approval by default, while read-only tools like `Read`, `Glob`, and `Grep` do not.
+Ante has a permission system that gates tool execution. Rules are evaluated in first-match-wins order, with three possible decisions: **Allow**, **Ask**, or **Deny**. See the [Permissions](/configuration/permission) page for full details.

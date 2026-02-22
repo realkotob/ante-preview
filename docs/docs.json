@@ -76,6 +76,7 @@
             "pages": [
               "configuration/catalog",
               "configuration/preference",
+              "configuration/permission",
               "configuration/third-party-provider"
             ]
           },
