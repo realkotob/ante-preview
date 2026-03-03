@@ -25,6 +25,45 @@ Ante follows a clean separation of concerns with a client-daemon architecture. T
 - **Daemon** — The core engine. Receives operations, manages sessions, dispatches to LLM providers, schedules tool execution, and emits events.
 - **Transport** — Bounded async channels (Tokio) connect client and daemon within the same process. Message IDs enable tracing across the boundary.
 
+## Architecture direction: Session-centric to Agent-centric
+
+Ante started with a session-centric runtime where `Session` is the primary execution owner. We are moving toward an agent-centric runtime, where long-lived `Agent` instances own execution and communicate through messages.
+
+```mermaid
+flowchart LR
+  subgraph Today["Today: Session-centric"]
+    C1[Client]
+    S1[Session]
+    TS1[Turn/Step]
+    C1 -->|Op| S1 --> TS1
+  end
+
+  subgraph Target["Direction: Agent-centric"]
+    C2[Client]
+    S2[Session<br/>history + coordination]
+    A0[Root Agent]
+    A1[Worker Agent A]
+    A2[Worker Agent B]
+    C2 -->|Op| S2 --> A0
+    A0 <--> A1
+    A0 <--> A2
+  end
+```
+
+This is similar to an actor-based model:
+
+- **Agent as actor** — Each agent has isolated state, a mailbox, and a single logical execution loop.
+- **Message-driven coordination** — Agents coordinate via typed messages/events instead of shared mutable state.
+- **Hierarchical supervision** — Parent agents can spawn child agents (sub-agents), monitor outcomes, and decide retry/escalation policy.
+
+Why this shift:
+
+- Better isolation between concurrent tasks and sub-agents
+- Clear ownership of memory, permissions, and tool budgets per agent
+- More predictable scaling as workflows become multi-agent
+
+In this direction, `Session` remains important, but as a container for user interaction history, persistence, and protocol-level coordination rather than the only unit of execution.
+
 
 ## LLM providers
 
