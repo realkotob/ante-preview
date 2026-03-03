@@ -38,52 +38,36 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["start/overview", "start/philosophy", "start/quickstart", "start/eval"]
+            "pages": ["start/overview", "start/quickstart", "start/philosophy"]
+          },
+          {
+            "group": "Using Ante",
+            "pages": ["usage/tui", "usage/headless", "offline"]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/providers",
+              "configuration/preference",
+              "configuration/permission"
+            ]
+          },
+          {
+            "group": "Extensibility",
+            "pages": ["extend/skills", "extend/subagents", "memory"]
           },
           {
             "group": "Concepts",
             "pages": [
               "concepts/core-concepts",
               "concepts/architecture",
+              "agent-org",
               "concepts/protocol"
             ]
           },
           {
-            "group": "Agent Org",
-            "pages": [
-              "agent-org"
-            ]
-          },
-          {
-            "group": "Offline Mode",
-            "pages": ["offline"]
-          },
-          {
-            "group": "Usage",
-            "pages": [
-              "usage/tui",
-              "usage/headless"
-            ]
-          },
-          {
-            "group": "Extensibility",
-            "pages": [
-              "extend/skills",
-              "extend/subagents"
-            ]
-          },
-          {
-            "group": "Configuration",
-            "pages": [
-              "configuration/catalog",
-              "configuration/preference",
-              "configuration/permission",
-              "configuration/third-party-provider"
-            ]
-          },
-          {
-            "group": "Memory",
-            "pages": ["memory"]
+            "group": "Benchmarks",
+            "pages": ["start/eval"]
           },
           {
             "group": "Reference",

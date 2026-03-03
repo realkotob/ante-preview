@@ -9,8 +9,14 @@ Ante is designed to stay simple, fast, and trustworthy.
 
 ## Things we care about
 
-- Maintain a tight & tiny core
-- Minimize cognitive load, both for users and devs
-- Minimize dependencies, both runtime and build-time
-- Principled agent organization
-- Close the loop between training and inference
+- **Maintain a tight & tiny core.** Every line of code is a liability. We keep the core small so it's auditable, fast to compile, and easy to reason about.
+
+- **Minimize cognitive load, both for users and devs.** Fewer concepts to learn, fewer knobs to turn. If a feature needs a paragraph of explanation, it's probably too complex.
+
+- **Minimize dependencies, both runtime and build-time.** Fewer dependencies mean fewer supply-chain risks, faster builds, and less breakage from upstream changes. We vendor or rewrite rather than add another crate.
+
+- **Avoid vendor lock-in — including our own.** You can use Ante without creating an account or logging in with us. Bring your own API key, swap providers freely, or run fully offline with local models.
+
+- **Principled agent organization.** Agents should be structured, not freeform. Ante enforces a clear turn lifecycle and permission model so agents behave predictably and transparently.
+
+- **Close the loop between training and inference.** Evaluation isn't an afterthought — it's how we know the agent harness is doing its job. We benchmark continuously against real-world tasks and feed results back into development.

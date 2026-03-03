@@ -1,34 +1,49 @@
 ---
 title: "Overview"
-description: "Ante, self-contained agent that self-organizes"
+description: "Ante — a fast, provider-agnostic AI agent that lives in your terminal"
 ---
 # Ante
+
+**An**other **Te**rminal — a lightweight AI agent that lives in your terminal, built by [Antigma Labs](https://antigma.ai).
+
+Ante is built from the ground up in native Rust for security, performance, and resistance to AI-generated slop. No account required — just install and go.
+
+### Why Ante?
+
+- **No account needed.** Run Ante with your own API key. No sign-up, no telemetry gate.
+- **Provider agnostic.** Anthropic, OpenAI, Gemini, Grok, Open Router, or local models — your choice.
+- **Single binary.** One `curl | sh` install. No runtimes, no dependency trees.
+- **Offline capable.** Run GGUF models locally via the built-in llama.cpp engine — no internet required.
+- **Open skills format.** Extend Ante with composable, portable skill files.
+- **Benchmark proven.** Topped the Terminal Bench leaderboard — see [Benchmarks](/start/eval).
+
+### How it works
+
+Ante runs as an interactive agent in your terminal. You give it a task in natural language, it reasons through a plan, executes shell commands and file edits with your approval, and iterates until the job is done. Under the hood, Ante manages a structured turn lifecycle — prompt, tool calls, confirmation, execution — so the model's power is channeled through a safe, predictable loop.
+
 <Warning>
   Ante is currently in **preview** and under active development. Expect breaking changes, experimental features, and incomplete functionality. Currently only **macOS** and **Linux** are supported.
 </Warning>
-**An**other **Te**rminal — Ante is a lightweight AI agent that lives in your terminal, built by [Antigma Labs](https://antigma.ai). 
-It is built from the ground up in native Rust for security, performance, and resistance to AI generated slop.
-
-## How it works
-
-Terminal and cli is our primary interface, and we will add more over time.
 
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Philosophy" href="/start/philosophy">
-    The product and engineering principles we optimize for.
-  </Card>
   <Card title="Quickstart" icon="bolt" href="/start/quickstart">
     Install Ante and run your first prompt in under a minute.
   </Card>
-  <Card title="Core Concepts" icon="shapes" href="/concepts/core-concepts">
-    Understand sessions, tasks, turns, and the protocol.
+  <Card title="Philosophy" href="/start/philosophy">
+    The product and engineering principles we optimize for.
   </Card>
   <Card title="Interactive TUI" icon="terminal" href="/usage/tui">
     Learn to use the rich terminal interface.
   </Card>
-  <Card title="Headless Mode" icon="code" href="/usage/headless">
-    Integrate Ante into scripts and CI pipelines.
+  <Card title="Providers" icon="plug" href="/configuration/providers">
+    Pick and configure your model provider.
+  </Card>
+  <Card title="Core Concepts" icon="shapes" href="/concepts/core-concepts">
+    Understand sessions, tasks, turns, and the protocol.
+  </Card>
+  <Card title="Benchmarks" icon="chart-line" href="/start/eval">
+    See how Ante performs on Terminal Bench.
   </Card>
 </CardGroup>
