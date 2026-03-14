@@ -1,19 +1,18 @@
 ---
 title: "Overview"
-description: "Ante — self-contained agent that self-organizes"
+description: "Ante — ai-native, cloud-native, local-first agent runtime"
 ---
 # Ante
 
-**An**other **Te**rminal — a lightweight AI agent that lives in your terminal, built by [Antigma Labs](https://antigma.ai).
-A precursor to our mission of "building substrate for self-organizing intelligence."
+An **ai-native, cloud-native, local-first** agent runtime, built by [Antigma Labs](https://antigma.ai). A precursor to our mission of building substrate for self-organizing intelligence.
 
-Ante is built from the ground up in native Rust for security, performance, and resistance to AI-generated slop — a single self-contained binary with no external dependencies.
+Built from the ground up in native Rust — a single self-contained binary with no external dependencies.
 
 ### Key features
 
 <CardGroup cols={3}>
   <Card title="Lightweight agent core" icon="feather">
-    A single ~15MB binary with zero runtime dependencies. The agent core is built for minimal overhead and maximum throughput — making it the ideal runtime for orchestrating agent swarms at scale.
+    A single ~15MB binary with zero runtime dependencies. Built for minimal overhead and maximum throughput — the ideal runtime for orchestrating agents at cellular scale.
   </Card>
   <Card title="Native local models" icon="microchip">
     Run models entirely on your machine with built-in llama.cpp integration. No API keys, no internet, no data leaving your device. Ante handles engine installation, model discovery, and memory management automatically.
@@ -26,13 +25,15 @@ Ante is built from the ground up in native Rust for security, performance, and r
 ### Why Ante?
 
 - **Obsessed with simplicity and quality.** In a world of abundance, maintaining quality and a high level of trust is more valuable than ever.
-- **Self-contained with [offline mode](/offline).** We strive to close the loop between training and inference.
-- **[Meta Agent Orchestration](/agent-org).** Coordinate multiple agents that self-organize around complex tasks.
-- **Benchmark proven.** See [Benchmarks](/benchmarks/eval).
+- **Self-contained with [offline mode](/offline).** Your data stays on your machine. No phone-home, no telemetry gate.
+- **[Multi-agent orchestration](/agent-org).** Coordinate multiple agents that self-organize around complex tasks.
+- **Benchmark proven.** Public, reproducible evals with downloadable builds. See [Benchmarks](/benchmarks/eval).
 
 ### How it works
 
-Ante runs as an interactive agent in your terminal. You give it a task in natural language, it reasons through a plan, executes shell commands and file edits with your approval, and iterates until the job is done. Under the hood, Ante manages a structured turn lifecycle — prompt, tool calls, confirmation, execution — so the model's power is channeled through a safe, predictable loop.
+Ante runs as a client-daemon architecture. The daemon manages structured turn lifecycles — prompt, tool calls, confirmation, execution — channeling model power through a safe, predictable loop. The client can be an interactive TUI, a headless CLI, or an external process.
+
+Architecturally, Ante is moving toward an agent-centric runtime where long-lived agents coordinate through message passing — an actor model with hierarchical supervision, isolated state, and clear ownership of resources per agent.
 
 Ante can also run as a long-lived server (`ante serve`) that external clients drive through a structured JSONL protocol — ideal for building editor plugins, web UIs, and custom integrations.
 
