@@ -47,7 +47,9 @@ Operations (`Op`) are sent from the client to the daemon, wrapped in an `OpMsg` 
 | Op | Payload | Description |
 |---|---|---|
 | `StartSession` | `SessionConfig` | Initialize a new session with model, provider, policy, and options |
+| `UpdateSession` | `SessionUpdate` | Update the active session (e.g. switch models) without restarting |
 | `UserInput` | `String` | Submit a user prompt |
+| `Steer` | `String` | Additional user guidance for the active turn |
 | `ApprovalResponse` | `turn_id`, `responses: [(tool_id, ReviewDecision)]` | Respond to tool approval requests |
 | `SlashCommand` | `name`, `args` | Invoke a skill by name |
 | `OfflineMode` | `OfflineModeOp` | Offline mode operations (init, install, load model, etc.) |
@@ -60,7 +62,8 @@ Events (`Evt`) are sent from the daemon to the client, wrapped in an `EventMsg` 
 
 | Evt | Payload | Description |
 |---|---|---|
-| `SessionStart` | `SessionInitialized` | Session initialized with model, provider, skills, subagents |
+| `SessionStart` | `SessionInitialized` | Session initialized with model, provider, session ID, working directory |
+| `SessionUpdated` | `SessionInitialized` | Session updated in place (e.g. model changed) |
 | `SessionEnd` | — | Session terminated |
 | `TurnStart` | `turn_id` | A new turn has begun |
 | `TurnPause` | `turn_id`, `reason` | Turn paused (e.g. waiting for tool approval) |

@@ -90,6 +90,35 @@ Initialize a new session with model, provider, and configuration.
 | `disallowed_tools` | `string[]?` | Blacklist — these tools are removed |
 | `cwd` | `string?` | Working directory. Defaults to daemon's process directory |
 
+### UpdateSession
+
+Update the active session without restarting it (e.g. switch models mid-session).
+
+```json
+{
+  "op": {
+    "UpdateSession": {
+      "model": { "name": "gpt-5.4", "temperature": 0.2 }
+    }
+  },
+  "id": "op_..."
+}
+```
+
+**SessionUpdate fields:**
+
+| Field | Type | Description |
+|---|---|---|
+| `model` | `ModelSpec` | New model specification to use |
+
+### Steer
+
+Provide additional guidance to the agent during an active turn without starting a new one.
+
+```json
+{ "op": { "Steer": "focus on the auth module first" }, "id": "op_..." }
+```
+
 ### UserInput
 
 Submit user text input to the agent.
@@ -164,7 +193,7 @@ Offline mode operations for local model management. See the [Offline Mode operat
 
 #### SessionStart
 
-Emitted when a session is initialized. Contains metadata about the active model, provider, and available skills/subagents.
+Emitted when a session is initialized. Contains metadata about the active model, provider, session ID, and working directory. Skills and subagents are delivered separately via `ExtensionRefreshed`.
 
 ```json
 {
@@ -173,13 +202,7 @@ Emitted when a session is initialized. Contains metadata about the active model,
       "model": { "name": "claude-sonnet-4-5", "max_tokens": 8192 },
       "provider": "Anthropic",
       "session_id": "ses_01ARZ...",
-      "cwd": "/home/user/project",
-      "skills": [
-        { "name": "commit", "description": "Create a git commit", "scope": "User", "argument_hint": "-m 'message'" }
-      ],
-      "subagents": [
-        { "name": "explore", "description": "Explore the codebase", "color": "#4A90D9" }
-      ]
+      "cwd": "/home/user/project"
     }
   }
 }
@@ -193,8 +216,23 @@ Emitted when a session is initialized. Contains metadata about the active model,
 | `provider` | `ApiProvider` | Active provider |
 | `session_id` | `Id` | Unique session identifier |
 | `cwd` | `string` | Working directory path |
-| `skills` | `SkillMetadata[]` | Available skills |
-| `subagents` | `SubagentMetadata[]` | Available subagents |
+
+#### SessionUpdated
+
+Emitted when the active session is updated in place (e.g. model changed via `UpdateSession`).
+
+```json
+{
+  "event": {
+    "SessionUpdated": {
+      "model": { "name": "gpt-5.4" },
+      "provider": "OpenAI",
+      "session_id": "ses_01ARZ...",
+      "cwd": "/home/user/project"
+    }
+  }
+}
+```
 
 #### SessionEnd
 
@@ -380,12 +418,13 @@ Emitted when dialog compaction completes.
 
 #### ExtensionRefreshed
 
-Emitted when skills and subagents are refreshed.
+Emitted when skills and subagents are refreshed. This is also sent after `SessionStart` to deliver the initial set of skills and subagents.
 
 ```json
 {
   "event": {
     "ExtensionRefreshed": {
+      "session_id": "ses_01ARZ...",
       "skills": [
         { "name": "commit", "description": "Create a git commit", "scope": "User" }
       ],
@@ -450,6 +489,7 @@ Operations for managing local/offline models.
 | `LoadModel` | `model: OfflineModel`, `prefs: ModelPreferences` | Load an offline model with preferences |
 | `AttachServer` | `port: u16`, `model_name: string` | Attach to a running llama server on a local port |
 | `StopServer` | — | Stop the offline inference server |
+| `KillLlamaServer` | — | Kill any running llama server (owned or external) on default ports |
 
 ### OfflineModeEvt
 
@@ -457,11 +497,12 @@ Events reporting offline mode status.
 
 | Variant | Fields | Description |
 |---|---|---|
-| `Init` | `engine_status`, `system_caps`, `local_models`, `verified_models` | Initialization status report |
+| `Init` | `engine_status`, `system_caps`, `local_models`, `verified_models`, `upgrade_available?`, `running_servers` | Initialization status report |
 | `InstallProgress` | `progress: u8`, `message: string` | Engine installation progress (0–100) |
 | `Installed` | `path: string` | Engine installation complete |
 | `ModelLoading` | `model_name: string`, `file_size_bytes: u64` | Model download in progress |
-| `ServerReady` | `port: u16`, `model_name: string` | Offline server is ready to accept requests |
+| `ServerReady` | `port: u16`, `model_name: string`, `server_pid?: u32` | Offline server is ready to accept requests |
+| `LlamaServerKilled` | — | A llama server was killed (owned or external) |
 | `Error` | `message: string` | Offline mode error |
 
 ## Transport
@@ -477,13 +518,23 @@ When the client and daemon run in the same process (TUI or headless mode), they 
 
 ### Stdio transport (JSONL)
 
-For external clients, `StdioTransport` bridges JSON Lines over stdin/stdout to the internal channel pair:
+For external clients using `ante serve` (or `ante serve --stdio`), `StdioTransport` bridges JSON Lines over stdin/stdout to the internal channel pair:
 
 - **stdin** → Parse each line as `OpMsg` → forward to daemon
 - **daemon events** → Serialize as JSON → write to **stdout** (one line per event)
 - **EOF on stdin** → Automatically sends `Op::Shutdown`
 - **`Evt::Goodbye` received** → Transport exits
 - **JSON parse errors** → An `Evt::Error` is sent back on stdout
+
+### WebSocket transport
+
+For networked or browser-based clients using `ante serve --ws <ADDR>`, `WsTransport` exchanges the same JSONL protocol over WebSocket frames:
+
+- Each WebSocket connection gets its own daemon instance
+- Messages are the same `OpMsg` and `EventMsg` JSON objects, sent as text frames
+- **Client disconnect** → Daemon instance shuts down, server accepts next connection
+- **`Op::Shutdown` received** → Connection and server both exit
+- The server loops accepting new connections until a `Shutdown` is received
 
 ## Complete flow example
 

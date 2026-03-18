@@ -152,6 +152,17 @@ Run GGUF models locally via the built-in llama.cpp engine. No API keys or intern
 ante --provider local
 ```
 
+## Standalone models
+
+The catalog includes pre-configured model specs for popular models that don't have a dedicated provider. These can be used with the `openai-compatible` provider or Open Router:
+
+| Model | Description | Context |
+|---|---|---|
+| `qwen3.5-plus` | Most powerful Qwen visual model | 1M |
+| `qwen-plus` | Fast and capable | 1M |
+| `kimi-k2.5` | Kimi K2.5 reasoning model | 262K |
+| `MiniMax-M2.5` | MiniMax M2.5 model | 200K |
+
 ## Custom catalog
 
 Users can create `~/.ante/catalog.json` to add or override providers and models. The custom catalog is merged on top of the built-in catalog at startup.
@@ -180,6 +191,8 @@ Users can create `~/.ante/catalog.json` to add or override providers and models.
 ```
 
 Supported wire styles: `AnthropicMessage`, `OpenAiCompatible`, `OpenAiResponse`, `Gemini`.
+
+Supported thinking modes: `Disabled`, `Enabled`, `Deep`, `Max`.
 
 ## Third-party & custom providers
 

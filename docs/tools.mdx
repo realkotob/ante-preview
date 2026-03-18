@@ -100,6 +100,12 @@ Search the web and return results with citations.
 WebSearch is not in the default tool set. Enable it via `--allowed-tools` or `--simple-agent` mode.
 </Note>
 
+## Default tool set
+
+The following tools are enabled by default: `Read`, `Bash`, `BashOutput`, `KillShell`, `Grep`, `Glob`, `TodoWrite`, `WebFetch`, `Edit`, `Write`, `Agent`.
+
+Tools **not** in the default set (opt-in only): `WebSearch`, `ImageRead`, `PTY`. Enable them with `--allowed-tools`.
+
 ### ImageRead
 
 Read and analyze images with a natural-language instruction.

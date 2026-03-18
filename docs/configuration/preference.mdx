@@ -13,7 +13,8 @@ Ante stores user preferences in `~/.ante/settings.json`:
   "provider": "anthropic",
   "theme": "default",
   "policy": "default",
-  "has_completed_onboarding": true
+  "has_completed_onboarding": true,
+  "status_line": ["model-name", "current-dir"]
 }
 ```
 
@@ -24,6 +25,20 @@ Ante stores user preferences in `~/.ante/settings.json`:
 | `theme` | TUI color theme |
 | `policy` | Default permission policy (`default` or `yolo`) |
 | `has_completed_onboarding` | Whether the onboarding flow has been completed |
+| `status_line` | Items to display in the TUI status line footer (see below) |
+
+### Status line
+
+The `status_line` field controls which items appear in the TUI's footer bar. It accepts an array of item identifiers:
+
+| Item | Description |
+|---|---|
+| `model-name` | Current model name |
+| `provider` | Current provider |
+| `current-dir` | Current working directory |
+| `git-branch` | Current Git branch (omitted when unavailable) |
+
+Default: `["model-name", "current-dir"]`. Configure via `~/.ante/settings.json` or the `/statusline` command in the TUI.
 
 Settings can be overridden per-session via CLI flags.
 
@@ -40,6 +55,10 @@ Settings can be overridden per-session via CLI flags.
 | `OPENROUTER_API_KEY` | API key for Open Router |
 | `Z_AI_API_KEY` | API key for Zai |
 | `MODEL_BASE_URL` | Override the base URL for any provider |
+| `MODEL_TEMPERATURE` | Override model temperature (float) |
+| `MODEL_TOP_P` | Override model top_p sampling parameter (float) |
+| `MODEL_THINKING` | Override thinking mode (`none`, `enabled`, `deep`, `max`) |
+| `MODEL_MAX_TOKENS` | Override max output tokens (integer) |
 | `ANTE_LOCAL_PROVIDER_PORT` | Override the local provider port (default: 8080) |
 | `ANTE_HOME` | Override the home config directory (default: `~/.ante`) |
 | `ANTE_DISABLE_STREAMING` | Disable streaming responses in TUI mode |
