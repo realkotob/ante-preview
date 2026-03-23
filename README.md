@@ -127,7 +127,7 @@ No. Ante has zero vendor lock-in — you can use it with just an API key from an
 <details>
 <summary><b>Does Ante support Windows?</b></summary>
 
-Not yet. Ante currently supports macOS and Linux only. Windows support may come in the future.
+Not yet. Ante currently supports macOS and Linux only. Windows support may come in the future. You can use WSL for now. 
 </details>
 
 <details>
