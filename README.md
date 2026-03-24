@@ -1,8 +1,14 @@
 
-[![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/CbAsUR434B)
-[![Docs](https://img.shields.io/badge/Docs-docs.antigma.ai-orange?logo=safari&logoColor=white)](https://docs.antigma.ai)
-[![X](https://img.shields.io/badge/X-@antigma__labs-black?logo=x&logoColor=white)](https://twitter.com/antigma_labs)
-[![Hugging Face](https://img.shields.io/badge/HuggingFace-Antigma-yellow?logo=huggingface&logoColor=white)](https://huggingface.co/Antigma)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/AntigmaLabs/ante-preview/main/website/static/assets/ante.png" width="80" alt="Ante" />
+</p>
+
+<p align="center">
+  <a href="https://discord.gg/CbAsUR434B"><img src="https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white" /></a>
+  <a href="https://docs.antigma.ai"><img src="https://img.shields.io/badge/Docs-docs.antigma.ai-orange?logo=safari&logoColor=white" /></a>
+  <a href="https://twitter.com/antigma_labs"><img src="https://img.shields.io/badge/X-@antigma__labs-black?logo=x&logoColor=white" /></a>
+  <a href="https://huggingface.co/Antigma"><img src="https://img.shields.io/badge/HuggingFace-Antigma-yellow?logo=huggingface&logoColor=white" /></a>
+</p>
 
 # Ante
 
@@ -23,13 +29,13 @@ Ante is an AI-native, cloud-native, local-first agent runtime built by [Antigma 
 
 ## Performance
 
-Ante is built for scale. Its lightweight Rust core uses a fraction of the memory and disk I/O of comparable agents, completing the same coding tasks with dramatically lower overhead — making it practical to run hundreds of parallel agents on a single machine.
+Ante is designed for the **cellular-native** thesis: agents lightweight enough to run hundreds of replicas in parallel on a single machine. Its ~15MB Rust core uses a fraction of the memory, CPU, and disk I/O of comparable agents — making mass parallelism practical without specialized infrastructure.
 
 Docker resource usage across 20 parallel tasks (Ante vs Claude Code vs Opencode):
 
-![Resource Usage Comparison](assets/compare_animated.gif)
+![Resource Usage Comparison](https://storage.googleapis.com/antigma-public/compare_animated.gif)
 
-Across 20 parallel tasks, Ante uses **~7× less peak memory**, **~9× less average CPU**, and generates **~5× less total disk I/O** than Claude Code — while completing the same workload. That efficiency is what makes it practical to run hundreds of agents in parallel at scale. See the [full comparison table](docs/assets/compare_table.md) for detailed CPU, memory, disk, and I/O metrics.
+Across 20 parallel tasks, Ante uses **~7× less peak memory**, **~9× less average CPU**, and generates **~5× less total disk I/O** than Claude Code — while completing the same workload. See the [full comparison table](docs/assets/compare_table.md) for detailed CPU, memory, disk, and I/O metrics.
 
 ## Quick Start
 
@@ -119,12 +125,6 @@ Configure providers via environment variables (`ANTHROPIC_API_KEY`, `OPENAI_API_
 ## FAQ
 
 <details>
-<summary><b>Does Ante require an account or login?</b></summary>
-
-No. Ante has zero vendor lock-in — you can use it with just an API key from any supported provider, or run fully offline with local models. No Antigma account is needed.
-</details>
-
-<details>
 <summary><b>Does Ante support Windows?</b></summary>
 
 Not yet. Ante currently supports macOS and Linux only. Windows support may come in the future. You can use WSL for now. 
@@ -149,9 +149,11 @@ Server mode runs Ante as a long-lived daemon that communicates over a structured
 </details>
 
 <details>
-<summary><b>How does Ante compare to other AI coding agents?</b></summary>
+<summary><b>How does Ante compare to other AI coding agents, and do I need an account?</b></summary>
 
-Ante is built from scratch in native Rust — not a wrapper around an SDK or framework. Key differentiators: ~15MB self-contained binary, client-daemon architecture, native local model support, zero vendor lock-in, and multi-agent orchestration. It's designed for the "cellular-native" thesis — agents lightweight enough to run thousands of replicas at scale.
+No account required. Ante has zero vendor lock-in — use it with any API key from any supported provider, switch freely between 12+ providers, or run fully offline with local models. No Antigma account needed.
+
+Unlike other agents, Ante is built from scratch in native Rust — not a wrapper around an SDK or framework. Key differentiators: ~15MB self-contained binary, client-daemon architecture, native local model support, and multi-agent orchestration designed to run hundreds of replicas in parallel at scale.
 
 See the [resource usage comparison](docs/assets/compare_table.md) across 20 parallel tasks for concrete numbers.
 </details>
