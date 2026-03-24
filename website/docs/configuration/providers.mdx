@@ -1,9 +1,7 @@
 ---
-title: "Providers"
+title: Providers
 description: "Pick and configure your model provider"
 ---
-
-import { Steps } from 'vocs/components'
 
 Ante is provider-agnostic. Each provider implements a common interface for sending prompts and receiving streaming responses. Providers are resolved from a catalog at session init time.
 
@@ -25,8 +23,6 @@ Ante is provider-agnostic. Each provider implements a common interface for sendi
 | Local | OpenAI-compatible | GGUF models |
 
 ### Provider identifiers
-
-Use these identifiers with `--provider` or in your settings file:
 
 | ID | Provider |
 |---|---|
@@ -53,8 +49,6 @@ You can set your provider in three ways (in order of precedence):
 
 ## Authentication
 
-Each provider requires its own authentication method:
-
 | Provider | Auth Method |
 |---|---|
 | Anthropic | `ANTHROPIC_API_KEY` env var or OAuth |
@@ -78,8 +72,6 @@ Anthropic, OpenAI, and Antix also support interactive OAuth flows through the TU
 
 ### Anthropic (Claude)
 
-The default provider. Supports the full Claude model family through the Messages API.
-
 ```bash
 ante --provider anthropic --model claude-sonnet-4-5
 ```
@@ -87,8 +79,6 @@ ante --provider anthropic --model claude-sonnet-4-5
 Available models: `claude-haiku-4-5`, `claude-sonnet-4-5`, `claude-sonnet-4-6`, `claude-opus-4-6`
 
 ### OpenAI
-
-Supports GPT models through the Responses API.
 
 ```bash
 ante --provider openai --model gpt-5.4
@@ -98,17 +88,11 @@ Available models: `gpt-5.4`, `gpt-5.4-pro`, `gpt-5.3-codex`, `gpt-5-mini`, `gpt-
 
 ### Google Gemini
 
-Supports Gemini models through the Gemini API.
-
 ```bash
 ante --provider gemini --model gemini-3-flash-preview
 ```
 
-Available models: `gemini-3-flash-preview`, `gemini-3.1-pro-preview`
-
 ### Vertex AI Gemini
-
-Access Gemini models through Google Cloud's Vertex AI.
 
 ```bash
 ante --provider vertex-gemini --model gemini-3-flash-preview
@@ -116,15 +100,11 @@ ante --provider vertex-gemini --model gemini-3-flash-preview
 
 ### Grok (xAI)
 
-Uses the Responses API wire format.
-
 ```bash
 ante --provider xai --model grok-4-latest
 ```
 
 ### Zai
-
-Access GLM models through the Zai API.
 
 ```bash
 ante --provider zai --model glm-4.7
@@ -132,15 +112,11 @@ ante --provider zai --model glm-4.7
 
 ### Open Router
 
-Access multiple providers through a single API via [Open Router](https://openrouter.ai/).
-
 ```bash
 ante --provider openrouter --model deepseek/deepseek-reasoner
 ```
 
 ### Antix
-
-Access Claude and GPT models through Antigma's platform via OAuth.
 
 ```bash
 ante --provider antix --model claude-sonnet-4-5
@@ -156,8 +132,6 @@ ante --provider local
 
 ## Standalone models
 
-The catalog includes pre-configured model specs for popular models that don't have a dedicated provider. These can be used with the `openai-compatible` provider or Open Router:
-
 | Model | Description | Context |
 |---|---|---|
 | `qwen3.5-plus` | Most powerful Qwen visual model | 1M |
@@ -167,7 +141,7 @@ The catalog includes pre-configured model specs for popular models that don't ha
 
 ## Custom catalog
 
-Users can create `~/.ante/catalog.json` to add or override providers and models. The custom catalog is merged on top of the built-in catalog at startup.
+Create `~/.ante/catalog.json` to add or override providers and models:
 
 ```json
 {
@@ -200,52 +174,37 @@ Supported thinking modes: `Disabled`, `Enabled`, `Deep`, `Max`.
 
 ### Using Open Router
 
-The easiest way to access third-party models is through [Open Router](https://openrouter.ai/), which provides a unified API for hundreds of models from different providers.
-
-<Steps>
-  ### Get an Open Router API key
-  Sign up at [openrouter.ai](https://openrouter.ai/) and generate an API key.
-
-  ### Set your API key
-  ```bash
-  export OPENROUTER_API_KEY="sk-or-..."
-  ```
-
-  ### Select a model
-  Browse [Open Router's model list](https://openrouter.ai/models) and use the model identifier:
-
-  ```bash
-  ante --provider openrouter --model deepseek/deepseek-reasoner
-  ```
-</Steps>
+1. Sign up at [openrouter.ai](https://openrouter.ai/) and generate an API key.
+2. Set your API key:
+   ```bash
+   export OPENROUTER_API_KEY="sk-or-..."
+   ```
+3. Use any model from [Open Router's model list](https://openrouter.ai/models):
+   ```bash
+   ante --provider openrouter --model deepseek/deepseek-reasoner
+   ```
 
 ### OpenAI-compatible providers
 
-Many LLM providers expose an OpenAI-compatible API (e.g., Together AI, Fireworks, Groq Cloud, Perplexity). You can connect to these through the `openai-compatible` provider by setting a custom base URL.
+Many LLM providers expose an OpenAI-compatible API (e.g., Together AI, Fireworks, Groq Cloud, Perplexity):
 
-<Steps>
-  ### Set the base URL
-  Point the OpenAI Compatible provider to your chosen service:
-
-  ```bash
-  export MODEL_BASE_URL="https://api.together.xyz/v1"
-  ```
-
-  ### Set your API key
-  ```bash
-  export OPENAI_COMPATIBLE_API_KEY="your-provider-api-key"
-  ```
-
-  ### Run with the OpenAI Compatible provider
-  ```bash
-  ante --provider openai-compatible --model meta-llama/Llama-3-70b-chat-hf
-  ```
-</Steps>
+1. Set the base URL:
+   ```bash
+   export MODEL_BASE_URL="https://api.together.xyz/v1"
+   ```
+2. Set your API key:
+   ```bash
+   export OPENAI_COMPATIBLE_API_KEY="your-provider-api-key"
+   ```
+3. Run with the OpenAI Compatible provider:
+   ```bash
+   ante --provider openai-compatible --model meta-llama/Llama-3-70b-chat-hf
+   ```
 
 :::tip
-When using third-party providers, make sure the model you select supports tool use (function calling). Ante relies on tool use for its agent capabilities.
+When using third-party providers, make sure the model supports tool use (function calling). Ante relies on tool use for its agent capabilities.
 :::
 
 :::warning
-Not all models work equally well as coding agents. Models need strong instruction following and tool use support. If you experience issues, try a larger or more capable model.
+Not all models work equally well as coding agents. If you experience issues, try a larger or more capable model.
 :::

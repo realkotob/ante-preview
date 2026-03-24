@@ -7,22 +7,22 @@ import {
 } from 'lucide-react'
 
 const iconMap: Record<string, LucideIcon> = {
-  'feather':     Feather,
-  'microchip':   Cpu,
-  'lock-open':   LockOpen,
-  'bolt':        Zap,
-  'terminal':    Terminal,
-  'plug':        Plug,
-  'shapes':      Shapes,
-  'wifi-slash':  WifiOff,
-  'sitemap':     Network,
-  'chart-line':  TrendingUp,
-  'code':        Code,
-  'server':      Server,
-  'scroll':      ScrollText,
-  'globe':       Globe,
-  'book':        BookOpen,
-  'flask':       FlaskConical,
+  'feather':    Feather,
+  'microchip':  Cpu,
+  'lock-open':  LockOpen,
+  'bolt':       Zap,
+  'terminal':   Terminal,
+  'plug':       Plug,
+  'shapes':     Shapes,
+  'wifi-slash': WifiOff,
+  'sitemap':    Network,
+  'chart-line': TrendingUp,
+  'code':       Code,
+  'server':     Server,
+  'scroll':     ScrollText,
+  'globe':      Globe,
+  'book':       BookOpen,
+  'flask':      FlaskConical,
 }
 
 interface CardProps {
@@ -42,7 +42,7 @@ export function Card({ title, icon, href, children }: CardProps) {
 
   const inner = (
     <div style={{
-      border: '1px solid var(--vocs-color_border)',
+      border: '1px solid var(--ifm-color-emphasis-300)',
       borderRadius: '10px',
       padding: '16px 20px',
       display: 'flex',
@@ -50,27 +50,25 @@ export function Card({ title, icon, href, children }: CardProps) {
       gap: '8px',
       height: '100%',
       transition: 'border-color 0.15s, background 0.15s',
-      background: 'var(--vocs-color_background)',
+      background: 'var(--ifm-card-background-color)',
     }}>
       {Icon && (
         <div style={{
           width: '32px',
           height: '32px',
           borderRadius: '6px',
-          background: 'color-mix(in srgb, var(--vocs-color_accentText) 12%, transparent)',
+          background: 'color-mix(in srgb, var(--ifm-color-primary) 12%, transparent)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: '2px',
         }}>
-          <Icon size={16} color="var(--vocs-color_accentText)" />
+          <Icon size={16} color="var(--ifm-color-primary)" />
         </div>
       )}
-      <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--vocs-color_text)' }}>
-        {title}
-      </div>
+      <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{title}</div>
       {children && (
-        <div style={{ fontSize: '0.85rem', color: 'var(--vocs-color_text3)', lineHeight: 1.55 }}>
+        <div style={{ fontSize: '0.85rem', color: 'var(--ifm-color-emphasis-700)', lineHeight: 1.55 }}>
           {children}
         </div>
       )}
@@ -84,17 +82,11 @@ export function Card({ title, icon, href, children }: CardProps) {
         style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}
         onMouseEnter={(e) => {
           const div = e.currentTarget.firstChild as HTMLElement
-          if (div) {
-            div.style.borderColor = 'var(--vocs-color_accentText)'
-            div.style.background = 'color-mix(in srgb, var(--vocs-color_accentText) 4%, var(--vocs-color_background))'
-          }
+          if (div) div.style.borderColor = 'var(--ifm-color-primary)'
         }}
         onMouseLeave={(e) => {
           const div = e.currentTarget.firstChild as HTMLElement
-          if (div) {
-            div.style.borderColor = 'var(--vocs-color_border)'
-            div.style.background = 'var(--vocs-color_background)'
-          }
+          if (div) div.style.borderColor = 'var(--ifm-color-emphasis-300)'
         }}
       >
         {inner}

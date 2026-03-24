@@ -1,5 +1,5 @@
 ---
-title: "ante serve"
+title: ante serve
 description: "Run Ante as a long-lived server for programmatic integration"
 ---
 
@@ -27,7 +27,7 @@ The `--stdio` flag is optional — stdio is the default transport. The daemon re
 ante serve --ws 127.0.0.1:8080
 ```
 
-The `--ws` flag starts a WebSocket server on the given address. Clients connect and exchange the same JSONL protocol over WebSocket frames. Each connection gets its own daemon instance. The server loops accepting new connections until a client sends a `Shutdown` operation.
+The `--ws` flag starts a WebSocket server on the given address. Each connection gets its own daemon instance. The server loops accepting new connections until a client sends a `Shutdown` operation.
 
 :::note
 `--stdio` and `--ws` are mutually exclusive — you cannot use both at the same time.
@@ -47,17 +47,12 @@ See the [Protocol Reference](/concepts/protocol) for the complete message catalo
 ## Example session
 
 ```bash
-# Start the server
 ante serve &
-
-# Send a StartSession operation
 echo '{"op":{"StartSession":{"model":"claude-sonnet-4-5","provider":"anthropic","streaming":true}},"id":"op_001"}' > /proc/$!/fd/0
-
-# Send user input
 echo '{"op":{"UserInput":"what is 2+2"},"id":"op_002"}' > /proc/$!/fd/0
 ```
 
-In practice, you'd use a proper JSONL client that reads and writes to the process's stdin/stdout pipes. Here's a minimal Node.js example:
+In practice, you'd use a proper JSONL client. Here's a minimal Node.js example:
 
 ```javascript
 const { spawn } = require("child_process");
@@ -76,13 +71,11 @@ ante.stdout.on("data", (chunk) => {
   }
 });
 
-// Start a session
 ante.stdin.write(JSON.stringify({
   op: { StartSession: { model: "claude-sonnet-4-5", provider: "anthropic", streaming: true } },
   id: "op_001"
 }) + "\n");
 
-// Send a prompt
 ante.stdin.write(JSON.stringify({
   op: { UserInput: "explain what this project does" },
   id: "op_002"
@@ -102,14 +95,10 @@ ante.stdin.write(JSON.stringify({
 
 ## CLI reference
 
-```
-ante serve [OPTIONS]
-```
-
 | Flag | Description |
 |---|---|
 | `--stdio` | Use JSONL over stdin/stdout (default) |
-| `--ws <ADDR>` | Serve the protocol over WebSocket on the given socket address (e.g. `127.0.0.1:8080`) |
+| `--ws <ADDR>` | Serve the protocol over WebSocket |
 
 :::note
 The `--prompt` flag cannot be used with `ante serve`. Use `UserInput` operations instead.

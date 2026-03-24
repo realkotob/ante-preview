@@ -1,5 +1,5 @@
 ---
-title: "Interactive TUI"
+title: Interactive TUI
 description: "Using Ante's rich terminal user interface"
 ---
 
@@ -126,31 +126,18 @@ If you paste multiple file paths, Ante auto-prefixes them with `@` for convenien
 
 ## CLI flags for TUI mode
 
-You can customize the TUI session with flags:
-
 ```bash
-# Use a specific model
 ante --model claude-sonnet-4-5
-
-# Use a specific provider
 ante --provider openai
-
-# Override the system prompt
 ante --system-prompt "You are a Python expert"
-
-# Append to the system prompt
 ante --append-system-prompt "Always use type hints"
-
-# Restrict available tools
 ante --allowed-tools Read Grep Glob
-
-# Remove specific tools
 ante --disallowed-tools Bash Write
 ```
 
 ## Streaming
 
-Streaming is enabled by default in TUI mode for real-time response rendering. To disable it, set the `ANTE_DISABLE_STREAMING` environment variable:
+Streaming is enabled by default in TUI mode. To disable it:
 
 ```bash
 ANTE_DISABLE_STREAMING=1 ante

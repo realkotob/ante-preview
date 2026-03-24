@@ -1,13 +1,11 @@
 ---
-title: "Permissions"
+title: Permissions
 description: "How Ante gates tool execution with policies, rules, and matchers"
 ---
 
 Ante has a permission system that controls whether tool calls are auto-approved, require user confirmation, or are denied entirely.
 
 ## Policies
-
-A **policy** sets the baseline behavior for a session:
 
 | Policy | Behavior |
 |---|---|
@@ -17,12 +15,10 @@ A **policy** sets the baseline behavior for a session:
 Set the policy in `~/.ante/settings.json`:
 
 ```json
-{
-  "policy": "default"
-}
+{ "policy": "default" }
 ```
 
-Or override per-session with the `--yolo` flag:
+Or override per-session:
 
 ```bash
 ante --yolo "run cargo clippy and fix all warnings"
@@ -33,8 +29,6 @@ In headless mode, `yolo` policy is implied — all tools are auto-approved since
 :::
 
 ## Decisions
-
-When a tool call is evaluated, the result is one of three decisions:
 
 | Decision | Effect |
 |---|---|
@@ -60,8 +54,6 @@ If no rule matches, the default decision is **Ask**.
 
 ### Default rules
 
-When a session starts, Ante builds rules from tool metadata. Tools marked `requires_approval` get an `Ask` rule; others get `Allow`:
-
 | Tool | Default decision |
 |---|---|
 | `Bash` | Ask |
@@ -79,15 +71,13 @@ When a session starts, Ante builds rules from tool metadata. Tools marked `requi
 
 ### Session-level overrides
 
-When you approve a tool during a session (e.g. "always allow Bash"), Ante inserts an `Allow` rule at the **front** of the rule list. Because evaluation is first-match-wins, this effectively overrides the default `Ask` for that tool for the remainder of the session.
+When you approve a tool during a session (e.g. "always allow Bash"), Ante inserts an `Allow` rule at the **front** of the rule list, effectively overriding the default `Ask` for that tool for the remainder of the session.
 
 ## Tool matchers
 
-A tool matcher identifies which tool calls a rule applies to. There are two forms:
-
 ### Simple matcher
 
-Matches **any** invocation of a tool by name (case-insensitive):
+Matches **any** invocation of a tool by name:
 
 ```
 Bash
@@ -105,33 +95,25 @@ Bash(npm run *)
 Agent(explore)
 ```
 
-The syntax is `ToolName(glob-pattern)`. The glob is matched against the tool's primary argument:
-
 | Tool | Primary argument |
 |---|---|
 | `Bash` | `command` |
 | `Agent` | `subagent_type` |
 
-For other tools, only the simple (name-only) matcher is supported.
-
 ### Glob syntax
-
-Specifiers use standard glob patterns:
 
 | Pattern | Matches |
 |---|---|
 | `cargo test *` | `cargo test --all`, `cargo test my_mod` |
 | `npm run *` | `npm run build`, `npm run test` |
-| `safe-cmd:*` | `safe-cmd:foo`, `safe-cmd:bar` (but **not** `safe-cmd --flag`) |
+| `safe-cmd:*` | `safe-cmd:foo`, `safe-cmd:bar` |
 | `exp*` | `explore`, `experiment` |
 
 :::note
-The glob `safe-cmd:*` matches `safe-cmd:` followed by anything. It does **not** match `safe-cmd --flag` because `*` does not match across the `:` vs space boundary in the same way. Use `safe-cmd *` (with a space) to match space-separated arguments.
+The glob `safe-cmd:*` does **not** match `safe-cmd --flag`. Use `safe-cmd *` (with a space) to match space-separated arguments.
 :::
 
 ## Tool filtering
-
-Separate from permissions, you can control which tools are **available** in a session. Filtered-out tools are not presented to the agent at all.
 
 ```bash
 # Only allow these tools (whitelist)
@@ -139,12 +121,8 @@ ante --allowed-tools Read Glob Grep "analyze the code"
 
 # Remove these tools (blacklist)
 ante --disallowed-tools Bash Write "read-only analysis"
-```
 
-Tool filtering supports the same ToolMatcher syntax:
-
-```bash
-# Allow Bash but only for specific commands
+# Fine-grained: allow Bash only for specific commands
 ante --allowed-tools Read "Bash(cargo test *)" "Bash(cargo clippy *)" "analyze and test"
 ```
 
@@ -154,15 +132,6 @@ Tool filtering and permissions are independent. Filtering controls what tools **
 
 ## Mode-specific behavior
 
-### TUI mode
+In **TUI mode**, tools that require approval show an interactive prompt. You can approve or deny each call, or choose to always allow a tool for the session.
 
-In the TUI, tools that require approval show an interactive prompt. You can approve or deny each call, or choose to always allow a tool for the session.
-
-### Headless mode
-
-Headless mode implies `yolo` policy — all tool calls are auto-approved. Use `--allowed-tools` or `--disallowed-tools` to restrict what the agent can do:
-
-```bash
-# Restrict to read-only tools in CI
-ante --allowed-tools Read Glob Grep "summarize the codebase"
-```
+In **headless mode**, `yolo` policy is implied. Use `--allowed-tools` or `--disallowed-tools` to restrict what the agent can do.

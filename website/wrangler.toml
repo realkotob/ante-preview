@@ -1,5 +1,0 @@
-name = "ante-docs"
-compatibility_date = "2024-09-23"
-
-[assets]
-directory = "./docs/dist"
