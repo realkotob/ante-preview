@@ -11,7 +11,20 @@ const config: Config = {
   markdown: {
     mermaid: true,
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: [
+    '@docusaurus/theme-mermaid',
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        indexDocs: true,
+        docsRouteBasePath: '/',
+        language: ['en'],
+        highlightSearchTermsOnTargetPage: true,
+        explicitSearchResultPath: true,
+      },
+    ],
+  ],
 
   presets: [
     [
@@ -60,6 +73,33 @@ const config: Config = {
     colorMode: {
       defaultMode: 'light',
       respectPrefersColorScheme: true,
+    },
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: 'Docs',
+          items: [
+            { label: 'Overview', to: '/' },
+            { label: 'Quickstart', to: '/start/quickstart' },
+            { label: 'Configuration', to: '/configuration/providers' },
+          ],
+        },
+        {
+          title: 'Community',
+          items: [
+            { label: 'Discord', href: 'https://discord.gg/pqhj3DNGz2' },
+            { label: 'GitHub', href: 'https://github.com/AntigmaLabs/ante-preview' },
+          ],
+        },
+        {
+          title: 'Company',
+          items: [
+            { label: 'Website', href: 'https://antigma.ai' },
+          ],
+        },
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} Antigma Labs`,
     },
   } satisfies Preset.ThemeConfig,
 }
