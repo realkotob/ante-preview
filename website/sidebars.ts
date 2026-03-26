@@ -15,6 +15,18 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'TUI Cookbook',
+      items: [
+        'cookbook/login',
+        'cookbook/models-and-thinking',
+        'cookbook/providing-context',
+        'cookbook/steering',
+        'cookbook/approvals',
+        'cookbook/web-browsing',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Configuration',
       items: [
         'configuration/providers',
