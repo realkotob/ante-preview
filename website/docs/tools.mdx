@@ -97,7 +97,7 @@ Search the web and return results with citations.
 - **Key inputs**: `query`
 
 :::note
-WebSearch is not in the default tool set. Enable it via `--allowed-tools` or `--simple-agent` mode.
+WebSearch is not in the default tool set. Enable it via `--allowed-tools`.
 :::
 
 ## Default tool set
@@ -111,7 +111,7 @@ Tools **not** in the default set (opt-in only): `WebSearch`, `ImageRead`, `PTY`.
 Read and analyze images with a natural-language instruction.
 
 - **Approval required**: No
-- **Opt-in**: Not in the default tool set. Enable via `--allowed-tools` or `--simple-agent` mode.
+- **Opt-in**: Not in the default tool set. Enable via `--allowed-tools`.
 - **Key inputs**: `file_path`, `instruction`
 
 ### PTY
@@ -119,7 +119,7 @@ Read and analyze images with a natural-language instruction.
 Interactive pseudoterminal for running interactive commands.
 
 - **Approval required**: No
-- **Opt-in**: Only available via `--simple-agent` or `--allowed-tools`.
+- **Opt-in**: Not in the default tool set. Enable via `--allowed-tools`.
 - **Key inputs**: Writes to and reads from a terminal session.
 
 ## Tool filtering

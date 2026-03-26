@@ -47,12 +47,14 @@ See the [Protocol Reference](/concepts/protocol) for the complete message catalo
 ## Example session
 
 ```bash
-ante serve &
-echo '{"op":{"StartSession":{"model":"claude-sonnet-4-5","provider":"anthropic","streaming":true}},"id":"op_001"}' > /proc/$!/fd/0
-echo '{"op":{"UserInput":"what is 2+2"},"id":"op_002"}' > /proc/$!/fd/0
+# Start the daemon, sending JSONL to its stdin via a named pipe
+mkfifo /tmp/ante-pipe
+ante serve < /tmp/ante-pipe &
+echo '{"op":{"StartSession":{"model":"claude-sonnet-4-5","provider":"anthropic","streaming":true}},"id":"op_001"}' > /tmp/ante-pipe
+echo '{"op":{"UserInput":"what is 2+2"},"id":"op_002"}' > /tmp/ante-pipe
 ```
 
-In practice, you'd use a proper JSONL client. Here's a minimal Node.js example:
+In practice, you'd spawn the process and write to its stdin directly. Here's a minimal Node.js example:
 
 ```javascript
 const { spawn } = require("child_process");
