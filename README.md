@@ -28,6 +28,7 @@ Ante is an AI-native, cloud-native, local-first agent runtime built by [Antigma 
 - **Benchmark proven** — Topped the Terminal Bench 1.0 and 2.0 leaderboards. Public, reproducible evals.
 
 ## Performance
+**We care about the harness not the model nor the prompts.**
 
 Ante is designed for the **cellular-native** thesis: agents lightweight enough to run hundreds of replicas in parallel on a single machine. Its ~15MB Rust core uses a fraction of the memory, CPU, and disk I/O of comparable agents — making mass parallelism practical without specialized infrastructure.
 
