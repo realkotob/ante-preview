@@ -64,9 +64,30 @@ const sidebars: SidebarsConfig = {
   antix: [
     {
       type: 'category',
-      label: 'Antix',
+      label: 'Getting Started',
       collapsed: false,
-      items: ['antix/introduction', 'antix/concepts'],
+      items: ['antix/introduction', 'antix/quickstart'],
+    },
+    {
+      type: 'category',
+      label: 'Core Concepts',
+      collapsed: false,
+      items: [
+        'antix/concepts/routing',
+        'antix/concepts/organizations',
+        'antix/concepts/virtual-keys',
+        'antix/concepts/observability',
+        'antix/concepts/security',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Identity & Agents',
+      collapsed: false,
+      items: [
+        'antix/concepts/identity',
+        'antix/concepts/ante-integration',
+      ],
     },
   ],
 }
