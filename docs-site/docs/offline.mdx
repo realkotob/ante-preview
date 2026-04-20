@@ -42,8 +42,10 @@ Ante includes an integrated inference engine powered by llama.cpp. When you sele
 Pass `--offline-model` to run a one-shot prompt against a local GGUF file — no TUI required:
 
 ```bash
-ante --offline-model ~/.ante/models/qwen2.5-coder-7b-q4.gguf "Explain this code"
+ante --offline-model ~/.ante/models/Qwen3.5-9B-Q4_K_M.gguf "Explain this code"
 ```
+
+<img src="/assets/offline-headless.gif" alt="Headless offline mode running a one-shot prompt against a local GGUF model" style={{width: '100%', borderRadius: '8px', margin: '16px 0'}} />
 
 Ante starts the llama-server, waits for it to become ready, runs the session, then shuts the server down automatically.
 
@@ -52,8 +54,10 @@ Ante starts the llama-server, waits for it to become ready, runs the session, th
 When running `ante serve`, you can load a model once and share it across all connecting clients:
 
 ```bash
-ante serve --ws 127.0.0.1:9000 --offline-model ~/.ante/models/qwen2.5-coder-7b-q4.gguf
+ante serve --ws 127.0.0.1:9000 --offline-model ~/.ante/models/Qwen3.5-9B-Q4_K_M.gguf
 ```
+
+<img src="/assets/offline-serve.gif" alt="Serve mode with a shared offline model across WebSocket clients" style={{width: '100%', borderRadius: '8px', margin: '16px 0'}} />
 
 The llama-server starts before accepting connections, and each WebSocket client uses the same running server. The server shuts down cleanly on `Ctrl+C` or `SIGTERM`.
 
