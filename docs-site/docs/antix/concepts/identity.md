@@ -85,7 +85,7 @@ Refresh-token families are capped per `client_id` (`MAX_ACTIVE_FAMILIES_PER_CLIE
 
 ## Revocation
 
-- **Access tokens** — the JWT `jti` is written to Redis at `antix:jti:blocklist:{jti}`. The authentication middleware reads this on every request in strict mode: if Redis is unreachable, the request is rejected with `503`, not allowed through.
-- **Refresh tokens** — marked revoked in Postgres via `/oauth/revoke` or by the logout handler.
+- **Access tokens** — the token is added to the blocklist. The authentication middleware reads this on every request in strict mode.
+- **Refresh tokens** — marked revoked via `/oauth/revoke` or by the logout handler.
 
 Revocation propagates within seconds and is guaranteed to take effect within the 15-minute access-token TTL.

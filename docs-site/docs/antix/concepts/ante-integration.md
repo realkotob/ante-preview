@@ -25,8 +25,8 @@ Ante does **not** synthesize Virtual Keys from the refresh token. It uses the ac
 - **Cost attribution** — every prompt run from an engineer's Ante CLI is attributed to their user ID in the billing ledger and analytics timeline.
 - **Model governance** — restrict which models local agents can use via the `models` allow-list on the user's Virtual Key, or via organization-level defaults.
 - **Instant offboarding** — when an employee leaves, revoke their access in the Antix dashboard:
-  - the refresh token is marked revoked in Postgres, and
-  - the active access-token `jti` is added to the Redis blocklist.
+  - the refresh token is marked revoked, and
+  - the active access-token is added to the blocklist.
 
   The CLI disconnects within seconds, and is guaranteed to stop authorizing within the 15-minute access-token TTL.
 

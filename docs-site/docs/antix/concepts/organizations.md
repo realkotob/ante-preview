@@ -15,7 +15,7 @@ There are two organization roles:
 - **Admin** — manages members, invitations, virtual keys, budgets, and organization settings.
 - **Member** — consumes APIs using provided keys. Cannot manage members, view pending invites, or change organization settings.
 
-Role enforcement is **per-handler**, not in a global middleware. The authentication middleware resolves the caller's identity and `AuthTier`; each admin-only handler then checks the caller's role in `organization_members` before mutating state.
+Role enforcement ensures that operations are securely gated by checking the caller's role before mutating state.
 
 ### Super-admin (platform operator)
 
@@ -32,8 +32,8 @@ Org Admins invite members via `POST /api/portal/organizations/{org_id}/invite` (
 
 Revocation works across two layers:
 
-- **Access tokens** — the JWT `jti` is added to the Redis blocklist at `antix:jti:blocklist:{jti}`. Existing access tokens stop authorizing within seconds, and are guaranteed to die within the 15-minute TTL.
-- **Refresh tokens** — marked revoked in Postgres, preventing any further access-token issuance for that family.
+- **Access tokens** — the access token is added to the blocklist. Existing access tokens stop authorizing within seconds, and are guaranteed to die within the 15-minute TTL.
+- **Refresh tokens** — marked revoked, preventing any further access-token issuance for that family.
 - **Virtual keys** — revoked independently via `/admin/virtual-keys/{token}/revoke`. Virtual keys are not tied to the user's JWT family, so a member's keys must be revoked explicitly when offboarding.
 
 See [Identity Provider](/antix/concepts/identity) for JWT, RTR, and blocklist mechanics.

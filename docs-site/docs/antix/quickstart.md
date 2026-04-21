@@ -18,7 +18,7 @@ Antix speaks four wire protocols — OpenAI Chat Completions, OpenAI Responses, 
 - **Self-serve** — sign in at the Antix portal and create a key at `POST /api/portal/keys`. Portal-issued keys start with **`sk-antix-…`**.
 - **Admin-minted** — platform super-admins create keys via `POST /admin/virtual-keys`. These start with **`sk-vk-…`**.
 
-Both prefixes are valid on every proxy route. Keys are stored hashed; you see the plaintext exactly once at creation.
+Both prefixes are valid on every proxy route. Keys are stored securely; you see the plaintext exactly once at creation.
 
 ## First request — curl
 

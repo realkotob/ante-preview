@@ -16,18 +16,17 @@ Antix intercepts and standardizes errors across providers:
 - **`401 Unauthorized`** — missing or malformed `Authorization` header, unknown virtual key, revoked or deleted key, expired JWT (past the 15-minute TTL), or JWT `jti` found in the Redis blocklist.
 - **`402 Payment Required`** — the Virtual Key has exceeded its `max_budget` for the current `period`.
 - **`429 Too Many Requests`** — the request exceeded the `rpm_limit` or `tpm_limit` on the Virtual Key.
-- **`503 Service Unavailable`** — Antix's fail-closed path. Triggered when the Redis billing backend is unreachable, or when a requested model has no pricing row (`model_not_priced`). Override with `ANTIX_DANGER_ALLOW_UNBILLED_USAGE=true` at your own risk — see [Privacy & Security](/antix/concepts/security#antix_danger_allow_unbilled_usage).
+- **`503 Service Unavailable`** — Antix's fail-closed path. Triggered when the billing backend is unreachable, or when a requested model has no pricing row (`model_not_priced`). Override with `ANTIX_DANGER_ALLOW_UNBILLED_USAGE=true` at your own risk — see [Privacy & Security](/antix/concepts/security#antix_danger_allow_unbilled_usage).
 
 ## Metrics
 
-Antix is instrumented with OpenTelemetry end-to-end. Billing and telemetry events are offloaded via a Dead Letter Queue so your hot path stays low-latency.
+Antix is fully instrumented. Billing and telemetry events are offloaded asynchronously so your hot path stays low-latency.
 
 ### Latency histograms
 
 - `antix_stream_ttft_seconds` — Time-to-First-Token for streaming requests.
 - `antix_stream_total_duration_seconds` — end-to-end stream duration.
 - `antix_upstream_request_duration_seconds` — upstream provider latency.
-- `antix_redis_operation_duration_seconds` — Redis operation latency.
 - `antix_http_request_duration_seconds` — HTTP request duration.
 
 Tokens/second is not a first-class metric — derive it in Grafana from `antix_tokens_consumed_total` over `antix_stream_total_duration_seconds`.
@@ -53,19 +52,16 @@ Tokens/second is not a first-class metric — derive it in Grafana from `antix_t
 
 ### Reliability gauges
 
-- `antix_billing_dlq_depth` / `antix_billing_dlq_lost_total` — DLQ backlog and losses.
 - `antix_active_sse_connections` — in-flight streams.
-- `antix_db_pool_connections` — Postgres pool.
 - `antix_background_task_last_run_timestamp` / `antix_background_task_errors_total`.
 - `antix_dangerous_mode_enabled` — pinned to `1` when `ANTIX_DANGER_ALLOW_UNBILLED_USAGE` is set. Alert on this.
 - `antix_build_info`, `antix_registered_users`, `antix_dau`, `antix_portal_dau`.
-- `antix_clickhouse_writes_total`, `antix_redis_operation_errors_total`.
 
 All series carry an `ANTIX_ENV` resource attribute for Grafana environment filtering.
 
 ## Telemetry pipeline
 
-Billing and analytics events flow through a Redis-backed Dead Letter Queue, which prevents event loss when the primary ClickHouse / Postgres bounded channels saturate. For the background reconciliation loop that reconciles Redis fast-budgets against the Postgres spend ledger, see [Virtual Keys — Cost reconciliation](/antix/concepts/virtual-keys#cost-reconciliation).
+Billing and analytics events flow through asynchronous queues to prevent event loss. For cost reconciliation, see [Virtual Keys — Cost reconciliation](/antix/concepts/virtual-keys#cost-reconciliation).
 
 ## Environment knobs
 

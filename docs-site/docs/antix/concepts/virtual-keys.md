@@ -15,7 +15,7 @@ Never distribute raw provider keys. Antix issues **Virtual Keys** that act as mi
 | **Portal (self-serve)** | `POST /api/portal/keys` | `sk-antix-…` | Org users, authenticated with JWT |
 | **Admin (super-admin)** | `POST /admin/virtual-keys` | `sk-vk-…` | Platform operators, authenticated with master key or admin JWT |
 
-Both prefixes are accepted on every proxy route. Keys are stored as SHA-256 hashes in Postgres — plaintext is returned **exactly once** at creation. The per-user cap is configured via `users.max_virtual_keys`.
+Both prefixes are accepted on every proxy route. Keys are stored securely — plaintext is returned **exactly once** at creation. The per-user cap is configured via `users.max_virtual_keys`.
 
 ## Creating a key (admin)
 
@@ -76,11 +76,11 @@ curl -X POST https://antix.antigma.ai/admin/virtual-keys \
 Antix enforces budgets through a three-stage pipeline:
 
 1. **Pre-flight estimation** — the pricing layer estimates token cost from the request body. If the model has no pricing row, the request is rejected with `503 model_not_priced`.
-2. **Atomic reservation** — `LUA_BUDGET_RESERVE` atomically reserves the estimated cost against the key's current period. If it would exceed `max_budget`, the request is rejected with `402 Payment Required` before any upstream call.
-3. **Async settlement** — on completion, `LUA_BUDGET_SETTLE` reconciles the difference between estimated and actual cost. If the stream is cancelled mid-flight, `LUA_BUDGET_RELEASE` returns the unused reservation to the pool.
+2. **Atomic reservation** — atomically reserves the estimated cost against the key's current period. If it would exceed `max_budget`, the request is rejected with `402 Payment Required` before any upstream call.
+3. **Async settlement** — on completion, the difference between estimated and actual cost is reconciled. If the stream is cancelled mid-flight, the unused reservation is returned to the pool.
 
 This reserve/settle/release discipline eliminates double-spend and preserves fail-closed behavior under concurrent load.
 
 ## Cost reconciliation
 
-A background task started by `spawn_reconciliation_loop` periodically invokes `reconcile_once` on a `BudgetReserver` handle. It reconciles Redis fast-budgets against the Postgres spend ledger (and ClickHouse billing logs) to prevent drift over long-running periods.
+Background tasks periodically reconcile fast-budgets against the durable spend ledger to prevent drift over long-running periods.

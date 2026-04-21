@@ -17,13 +17,13 @@ While [Ante](/) delivers autonomous AI capabilities to your local terminal, Anti
     Speaks OpenAI Chat Completions, OpenAI Responses, Anthropic Messages, and Gemini native on the same base URL. Point any existing SDK at Antix with one line of config.
   </Card>
   <Card title="Hard-budget virtual keys" icon="shield-halved">
-    Issue scoped `sk-antix-…` (portal) or `sk-vk-…` (admin) keys with atomic `max_budget` caps per day, month, or lifetime. A Redis Lua reserve/settle pipeline blocks overruns before upstream is called.
+    Issue scoped `sk-antix-…` (portal) or `sk-vk-…` (admin) keys with atomic `max_budget` caps per day, month, or lifetime. Strict enforcement blocks overruns before upstream is called.
   </Card>
   <Card title="Built-in Identity Provider" icon="id-badge">
     A full OAuth 2.0 IdP with SSO (Google, GitHub), S256 PKCE, RS256 JWTs, Refresh Token Rotation, and published JWKS / OIDC discovery.
   </Card>
   <Card title="Production observability" icon="chart-line">
-    OpenTelemetry-native. TTFT, token, and cost metrics flow through a Dead Letter Queue into ClickHouse, with zero impact on hot-path latency.
+    Comprehensive metrics track TTFT, tokens, and costs without impacting hot-path latency.
   </Card>
   <Card title="Ante control plane" icon="plug">
     Governance for local coding agents. `ante auth login` authenticates each developer via PKCE loopback, attributes every prompt, and revokes access within the 15-minute access-token TTL.
@@ -36,9 +36,9 @@ While [Ante](/) delivers autonomous AI capabilities to your local terminal, Anti
 ### Why Antix?
 
 - **Fail-closed by default.** If the billing backend is unreachable, Antix refuses to serve traffic. Override explicitly with `ANTIX_DANGER_ALLOW_UNBILLED_USAGE` only during controlled incident response.
-- **Native Rust on the hot path.** A Rust streaming pipeline normalizes SSE across providers; Redis Lua scripts guarantee atomic budget enforcement under concurrent load.
+- **High-performance hot path.** A streaming pipeline normalizes SSE across providers, and atomic budget enforcement is guaranteed under concurrent load.
 - **Multi-tenant from day one.** Organizations, RBAC (`admin` / `member`), and scoped virtual keys — not bolted on.
-- **Honest about retention.** Antix persists request and response bodies to ClickHouse for cost attribution and admin analytics. Payload redaction is a deployment concern — see [Privacy & Data Retention](/antix/concepts/security).
+- **Honest about retention.** Antix persists request and response bodies for cost attribution and admin analytics. Payload redaction is a deployment concern — see [Privacy & Data Retention](/antix/concepts/security).
 
 ### Next steps
 
@@ -56,7 +56,7 @@ While [Ante](/) delivers autonomous AI capabilities to your local terminal, Anti
     Multi-tenant boundaries, roles, and admin APIs.
   </Card>
   <Card title="Observability" icon="chart-line" href="/antix/concepts/observability">
-    TTFT, error codes, and ClickHouse telemetry.
+    TTFT, error codes, and telemetry.
   </Card>
   <Card title="Identity Provider" icon="id-badge" href="/antix/concepts/identity">
     OAuth 2.0, PKCE, JWT specs, and revocation.

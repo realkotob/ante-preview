@@ -42,7 +42,7 @@ response = client.chat.completions.create(
 )
 ```
 
-A Rust streaming pipeline normalizes SSE events across providers so token deltas, tool calls, and stop reasons arrive in a consistent shape regardless of upstream.
+A streaming pipeline normalizes SSE events across providers so token deltas, tool calls, and stop reasons arrive in a consistent shape regardless of upstream.
 
 ## Bring Your Own Key (BYOK)
 
