@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.preview.14 - 2026-04-21
+
+- Add escape example of Ante and fix config reload bug
+- Fix shutdown bug for offline serve and headless
+- Show changelog on update
+- Support symlinked user skill roots
+- Scope release concurrency by version
+
 ## v0.preview.13 - 2026-04-17
 
 - Add initial Claude Code SDK (agent-sdk)
