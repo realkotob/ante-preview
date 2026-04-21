@@ -17,23 +17,10 @@ There are two organization roles:
 
 Role enforcement ensures that operations are securely gated by checking the caller's role before mutating state.
 
-### Super-admin (platform operator)
-
-Separate from Org Admin, Antix has a **super-admin** tier (`AuthTier::AdminOnly`) that gates the `/admin/*` surface. Super-admin access is granted by the master key or a JWT with admin privileges and is meant for platform operators, not organization owners.
-
-| Surface | Audience | Auth |
-|---|---|---|
-| `/api/portal/*` | Org Admins and Members (self-serve) | JWT access token |
-| `/admin/*` | Platform super-admins | Master key or admin JWT |
 
 ## Managing members
 
-Org Admins invite members via `POST /api/portal/organizations/{org_id}/invite` (distinct from the super-admin-only `/admin/invites`), assign a role on acceptance, and can revoke access at any time. Organization settings — default rate limits, allowed providers, invitation policy — live under `/admin/organizations/{id}/settings`.
+Org Admins can invite members, assign roles, and configure organization settings (like default rate limits and allowed providers) directly from the Antix portal dashboard at `/portal`.
 
-Revocation works across two layers:
-
-- **Access tokens** — the access token is added to the blocklist. Existing access tokens stop authorizing within seconds, and are guaranteed to die within the 15-minute TTL.
-- **Refresh tokens** — marked revoked, preventing any further access-token issuance for that family.
-- **Virtual keys** — revoked independently via `/admin/virtual-keys/{token}/revoke`. Virtual keys are not tied to the user's JWT family, so a member's keys must be revoked explicitly when offboarding.
-
-See [Identity Provider](/antix/concepts/identity) for JWT, RTR, and blocklist mechanics.
+**Revocation**
+Access can be revoked instantly via the portal, which immediately invalidates all associated keys and active sessions for the offboarded member.

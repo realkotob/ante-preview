@@ -15,10 +15,9 @@ Antix speaks four wire protocols — OpenAI Chat Completions, OpenAI Responses, 
 
 ## Getting a key
 
-- **Self-serve** — sign in at the Antix portal and create a key at `POST /api/portal/keys`. Portal-issued keys start with **`sk-antix-…`**.
-- **Admin-minted** — platform super-admins create keys via `POST /admin/virtual-keys`. These start with **`sk-vk-…`**.
+Sign in at the Antix portal at `/portal` and create a Virtual Key from your dashboard. Portal-issued keys start with **`sk-antix-…`**.
 
-Both prefixes are valid on every proxy route. Keys are stored securely; you see the plaintext exactly once at creation.
+Keys are stored securely; you see the plaintext exactly once at creation.
 
 ## First request — curl
 
@@ -89,8 +88,7 @@ Not supported: `/v1/embeddings`, `/v1/audio/*`, `/v1/images/*`, `/v1/files`, fin
 
 ## Authentication modes
 
-- **Virtual Key** — `Authorization: Bearer sk-antix-…` or `sk-vk-…` on proxy routes.
-- **JWT Bearer** — portal (`/api/portal/*`) and admin (`/admin/*`) routes require an RS256 access token. See [Identity](/antix/concepts/identity).
+- **Virtual Key** — `Authorization: Bearer sk-antix-…` on proxy routes.
 - **BYOK** — send your own provider key in `Authorization` and set `X-Antix-Provider`. See [Routing](/antix/concepts/routing).
 
 ## Next steps

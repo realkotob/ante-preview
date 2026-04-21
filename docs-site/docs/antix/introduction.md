@@ -17,16 +17,13 @@ While [Ante](/) delivers autonomous AI capabilities to your local terminal, Anti
     Speaks OpenAI Chat Completions, OpenAI Responses, Anthropic Messages, and Gemini native on the same base URL. Point any existing SDK at Antix with one line of config.
   </Card>
   <Card title="Hard-budget virtual keys" icon="shield-halved">
-    Issue scoped `sk-antix-…` (portal) or `sk-vk-…` (admin) keys with atomic `max_budget` caps per day, month, or lifetime. Strict enforcement blocks overruns before upstream is called.
-  </Card>
-  <Card title="Built-in Identity Provider" icon="id-badge">
-    A full OAuth 2.0 IdP with SSO (Google, GitHub), S256 PKCE, RS256 JWTs, Refresh Token Rotation, and published JWKS / OIDC discovery.
+    Issue scoped `sk-antix-…` keys with atomic `max_budget` caps per day, month, or lifetime. Strict enforcement blocks overruns before upstream is called.
   </Card>
   <Card title="Production observability" icon="chart-line">
     Comprehensive metrics track TTFT, tokens, and costs without impacting hot-path latency.
   </Card>
   <Card title="Ante control plane" icon="plug">
-    Governance for local coding agents. `ante auth login` authenticates each developer via PKCE loopback, attributes every prompt, and revokes access within the 15-minute access-token TTL.
+    Governance for local coding agents. Start `ante`, type `/connect`, and select Antix to securely authenticate your local agent, attributing every prompt.
   </Card>
   <Card title="Bring Your Own Key (BYOK)" icon="key">
     Send your own provider credentials in `Authorization` and declare the provider with `X-Antix-Provider`. Antix routes, observes, and meters without re-billing.
@@ -35,7 +32,7 @@ While [Ante](/) delivers autonomous AI capabilities to your local terminal, Anti
 
 ### Why Antix?
 
-- **Fail-closed by default.** If the billing backend is unreachable, Antix refuses to serve traffic. Override explicitly with `ANTIX_DANGER_ALLOW_UNBILLED_USAGE` only during controlled incident response.
+- **Fail-closed by default.** If the billing backend is unreachable, Antix refuses to serve traffic.
 - **High-performance hot path.** A streaming pipeline normalizes SSE across providers, and atomic budget enforcement is guaranteed under concurrent load.
 - **Multi-tenant from day one.** Organizations, RBAC (`admin` / `member`), and scoped virtual keys — not bolted on.
 - **Honest about retention.** Antix persists request and response bodies for cost attribution and admin analytics. Payload redaction is a deployment concern — see [Privacy & Data Retention](/antix/concepts/security).
@@ -57,8 +54,5 @@ While [Ante](/) delivers autonomous AI capabilities to your local terminal, Anti
   </Card>
   <Card title="Observability" icon="chart-line" href="/antix/concepts/observability">
     TTFT, error codes, and telemetry.
-  </Card>
-  <Card title="Identity Provider" icon="id-badge" href="/antix/concepts/identity">
-    OAuth 2.0, PKCE, JWT specs, and revocation.
   </Card>
 </CardGroup>

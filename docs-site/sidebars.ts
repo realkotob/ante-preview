@@ -85,7 +85,6 @@ const sidebars: SidebarsConfig = {
       label: 'Identity & Agents',
       collapsed: false,
       items: [
-        'antix/concepts/identity',
         'antix/concepts/ante-integration',
       ],
     },
