@@ -6,7 +6,7 @@ sidebar_position: 3
 
 # Virtual Keys, Rate Limits & Hard Budgets
 
-Never distribute raw provider keys. Antix issues **Virtual Keys** that act as middleware interceptors, validating budgets and rate limits in Redis before routing traffic upstream.
+Never distribute raw provider keys. Antix issues **Virtual Keys** that act as middleware interceptors, atomically validating budgets and rate limits before routing traffic upstream.
 
 ## Creating a key
 

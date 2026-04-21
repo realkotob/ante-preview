@@ -1,7 +1,7 @@
 ---
 title: "Ante Control Plane"
 description: "Govern local coding agents with PKCE, attribution, and revocation."
-sidebar_position: 7
+sidebar_position: 1
 ---
 
 # Native Agent Integration

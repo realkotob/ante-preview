@@ -1,5 +1,5 @@
 ---
-title: "Privacy & Data Retention"
+title: "Privacy, Security & Data Retention"
 description: "What Antix persists, what it doesn't, and the operational guards around billing."
 sidebar_position: 5
 ---
@@ -14,7 +14,7 @@ Antix is designed for **fail-closed billing** and **credential isolation**, not 
 - **Billing events** — token counts, model, user, organization, virtual-key identifiers, TTFT, duration — are persisted securely.
 - **Identity state** — OAuth sessions, refresh-token families, and blocklist entries — is persisted for session management and revocation.
 
-If your compliance posture requires payload redaction, treat it as a **deployment concern**: scrub at the log sink or run Antix behind a redacting gateway. Antix does not currently ship a first-class payload-scrubbing toggle.
+If your compliance posture requires payload redaction, raise it with whoever administers your Antix deployment — redaction is typically handled at the log sink or by running Antix behind a redacting gateway. Antix does not currently ship a first-class payload-scrubbing toggle.
 
 ## What Antix does not do
 

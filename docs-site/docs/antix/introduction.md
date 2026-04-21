@@ -32,7 +32,7 @@ While [Ante](/) delivers autonomous AI capabilities to your local terminal, Anti
 - **Fail-closed by default.** If the billing backend is unreachable, Antix refuses to serve traffic.
 - **High-performance hot path.** A streaming pipeline normalizes SSE across providers, and atomic budget enforcement is guaranteed under concurrent load.
 - **Multi-tenant from day one.** Organizations, RBAC (`admin` / `member`), and scoped virtual keys — not bolted on.
-- **Honest about retention.** Antix persists request and response bodies for cost attribution and admin analytics. Payload redaction is a deployment concern — see [Privacy & Data Retention](/antix/concepts/security).
+- **Honest about retention.** Antix persists request and response bodies for cost attribution and admin analytics — see [Privacy, Security & Data Retention](/antix/concepts/security).
 
 ### Next steps
 
@@ -47,7 +47,7 @@ While [Ante](/) delivers autonomous AI capabilities to your local terminal, Anti
     Provision scoped keys with hard spend and rate limits.
   </Card>
   <Card title="Organizations & RBAC" icon="users" href="/antix/concepts/organizations">
-    Multi-tenant boundaries, roles, and admin APIs.
+    Manage members, assign roles, and scope access across your organization.
   </Card>
   <Card title="Error Handling" icon="circle-exclamation" href="/antix/concepts/error-handling">
     Standardized error codes across providers.
