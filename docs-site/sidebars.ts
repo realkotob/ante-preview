@@ -48,7 +48,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Concepts',
-      items: ['concepts/core-concepts', 'concepts/architecture', 'concepts/protocol'],
+      items: ['concepts/core-concepts', 'concepts/architecture'],
     },
     {
       type: 'category',
@@ -58,7 +58,11 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Reference',
-      items: ['reference/cli-reference', 'reference/tools-reference'],
+      items: [
+        'reference/cli-reference',
+        'reference/protocol-reference',
+        'reference/tools-reference',
+      ],
     },
   ],
   antix: [
