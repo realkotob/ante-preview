@@ -18,6 +18,12 @@ Ante stores user preferences in `~/.ante/settings.json`:
   "model_thinking": {
     "claude-sonnet-4-6": "Enabled",
     "gpt-5.4": "Deep"
+  },
+  "mcp_servers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"]
+    }
   }
 }
 ```
@@ -31,6 +37,7 @@ Ante stores user preferences in `~/.ante/settings.json`:
 | `has_completed_onboarding` | Whether the onboarding flow has been completed |
 | `status_line` | Items to display in the TUI status line footer (see below) |
 | `model_thinking` | Per-model thinking level overrides — keys are model names, values are `Disabled` / `Enabled` / `Deep` / `Max` |
+| `mcp_servers` | MCP servers to launch on session start (see [MCP Servers](/extend/mcp)) |
 
 ### Status line
 

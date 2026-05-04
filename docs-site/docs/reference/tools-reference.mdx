@@ -67,6 +67,10 @@ Drive a persistent shared tmux session — useful for interactive programs and f
 
 Drive a Chromium browser for navigation, content extraction, and automation. The agent typically takes a snapshot of the page to find interactive elements, then clicks or types into them. Requires approval, and only available when Ante is built with the `browser` cargo feature.
 
+## MCP tools
+
+Tools provided by configured [MCP servers](/extend/mcp) are exposed to the agent as `mcp__<server>__<tool>`. They appear alongside built-in tools and behave identically from the agent's perspective. MCP tools are registered after `--allowed-tools` filtering so they are not stripped by a restrictive built-in allowlist.
+
 ## Default tool set
 
 By default Ante enables `Read`, `Bash`, `Grep`, `Glob`, `TodoWrite`, `WebFetch`, `Edit`, `Write`, and `Agent`. `Browser` is also included when Ante is built with the `browser` feature.

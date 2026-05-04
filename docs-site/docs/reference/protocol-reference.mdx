@@ -455,7 +455,7 @@ Emitted when dialog compaction completes.
 
 #### ExtensionRefreshed
 
-Emitted when skills and subagents are refreshed. This is also sent after `SessionStart` to deliver the initial set of skills and subagents.
+Emitted when skills, subagents, and MCP servers are refreshed. This is also sent after `SessionStart` to deliver the initial set of extensions.
 
 ```json
 {
@@ -467,11 +467,30 @@ Emitted when skills and subagents are refreshed. This is also sent after `Sessio
       ],
       "subagents": [
         { "name": "explore", "description": "Explore the codebase", "scope": "project" }
+      ],
+      "mcp_servers": [
+        {
+          "name": "filesystem",
+          "command": "npx",
+          "args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"],
+          "tools": [
+            {
+              "name": "read_text_file",
+              "qualified_name": "mcp__filesystem__read_text_file",
+              "description": "Read the contents of a text file",
+              "parameters": [
+                { "name": "path", "param_type": "string", "required": true, "description": "Path to the file" }
+              ]
+            }
+          ]
+        }
       ]
     }
   }
 }
 ```
+
+Each entry in `mcp_servers` reflects what was actually launched and discovered: the `tools` list is empty for servers that failed to connect, and `qualified_name` is the `mcp__<server>__<tool>` form the agent uses to call the tool.
 
 ### Informational events
 
